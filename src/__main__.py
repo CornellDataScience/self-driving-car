@@ -1,8 +1,8 @@
-from . import MainControlLoop
+from .framework import MainControlLoop
 
 def run():
-  MainControlLoop()
-
+  mcl = MainControlLoop()
+  mcl.execute()
 
 if __name__ == '__main__':
   run()

@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 # import sys
 # sys.path.append("..")
 
-from ..StateFieldRegister import StateFieldRegistry
+from ..sfr import StateFieldRegistry
 # Not really sure how to deal with imports, but ideally want it to be on
 # ControlTaskBase, then TestControlTask inherits from it
 
@@ -13,14 +13,17 @@ class ControlTaskBase(ABC):
     def __init__(self):
         pass
     
+    def initialize_sfr(self, sfr: StateFieldRegistry):
+        self.sfr = sfr
+
     """ Maps keys to default values """
     @abstractmethod
-    def default(self, sfr:StateFieldRegistry)->None:
+    def default(self)->None:
         pass
     
     """ Code that executes every cycle """
     @abstractmethod
-    def execute(self, sfr:StateFieldRegistry)->None:
+    def execute(self)->None:
         pass       
     
 # c = ControlTaskBase()
