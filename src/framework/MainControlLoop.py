@@ -1,5 +1,5 @@
-from ControlTasks.ClockManager import ClockManager
-from ControlTasks.MissionManager import MissionManager
+from ..ControlTasks import ClockManager, MissionManager
+
 from configparser import ConfigParser
 
 

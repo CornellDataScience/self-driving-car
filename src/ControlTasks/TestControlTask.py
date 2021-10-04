@@ -1,9 +1,8 @@
 # not to use sys and use python packages
 
-from ControlTaskBase import ControlTaskBase
-import sys
-sys.path.append("..")
-from StateFieldRegister.StateFieldRegistry import StateFieldRegistry
+from .ControlTaskBase import ControlTaskBase
+
+from ..sfr import StateFieldRegistry
 
 """ This test control task demonstrates how to set and read info from the SFR"""
 class TestControlTask(ControlTaskBase):

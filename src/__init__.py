@@ -4,10 +4,10 @@ from .ControlTasks import (
   MissionManager,
   TestControlTask
 )
-from .MainControlLoop import (
+from .framework import (
   MainControlLoop
 )
-from .StateFieldRegister import(
+from .sfr import(
   StateFieldRegistry
 )
 
