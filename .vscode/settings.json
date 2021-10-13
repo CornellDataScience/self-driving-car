@@ -1,5 +1,3 @@
 {
-  "python.linting.flake8Enabled": true,
-  "python.linting.enabled": true,
-  "python.pythonPath": "/Users/tobi/CDS/self-driving-car/sdcar/bin/python3"
+  "python.pythonPath": "venv/bin/python"
 }

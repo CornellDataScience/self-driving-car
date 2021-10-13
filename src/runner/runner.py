@@ -1,4 +1,4 @@
-from src.MainControlLoop import MainControlLoop
+from MainControlLoop import MainControlLoop
 import sys
 
 
