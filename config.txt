@@ -1,0 +1,7 @@
+[CLOCKMANAGER]
+clock_manager_var1 = "Clock Manager variable 1"
+clock_manager_var2 = "Clock Manager variable 2"
+
+[MISSIONMANAGER]
+mission_manager_var1 = "Mission Manager variable 1"
+mission_manager_var2 = "Mission Manager variable 2"
