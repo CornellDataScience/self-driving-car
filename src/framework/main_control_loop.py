@@ -1,13 +1,6 @@
-<<<<<<< HEAD
 from ..ControlTasks import ControlTaskBase, ClockManager, MissionManager
 from ..sfr import StateFieldRegistry
 import yaml
-=======
-from src.ControlTasks.mission_manager import MissionManager
-from ..ControlTasks import ControlTaskBase, ClockManager, MissionManager
-from ..sfr import StateFieldRegistry
-from configparser import ConfigParser
->>>>>>> cd7438bd6b78a304d8b5ea0a849f4c90c91be241
 
 class MainControlLoop(ControlTaskBase):
     def __init__(self):
