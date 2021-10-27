@@ -1,8 +1,5 @@
 venv/
 .DS_store
 .vscode/
-<<<<<<< HEAD
-=======
 *.pyc
 */__pycache__/*
->>>>>>> cd7438bd6b78a304d8b5ea0a849f4c90c91be241
