@@ -1,8 +1,10 @@
+'''__init__.py for src'''
+
 from .ControlTasks import (
-  ClockManager,
-  ControlTaskBase,
-  MissionManager,
-  TestControlTask
+    ClockManager,
+    ControlTaskBase,
+    MissionManager,
+    TestControlTask
 )
 
 # from .framework import (
@@ -12,5 +14,3 @@ from .ControlTasks import (
 # from .sfr import(
 #   StateFieldRegistry
 # )
-
-
