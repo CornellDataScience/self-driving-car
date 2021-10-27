@@ -1,8 +1,8 @@
 from .ControlTasks import (
-  ClockManager,
-  ControlTaskBase,
-  MissionManager,
-  TestControlTask
+    ClockManager,
+    ControlTaskBase,
+    MissionManager,
+    TestControlTask
 )
 
 # from .framework import (
