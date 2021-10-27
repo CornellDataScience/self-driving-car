@@ -9,9 +9,6 @@ class MainControlLoop(ControlTaskBase):
 
     def initialize(self, config):
         # self.sfr = StateFieldRegistry()
-        # Read YAML file
-        with open(config, 'r') as stream:
-            config_file = yaml.safe_load(stream)
 
         self.sfr = StateFieldRegistry()
 
@@ -20,7 +17,7 @@ class MainControlLoop(ControlTaskBase):
         self.point_tracker = PointTracker(config, self.sfr)
         self.mission_manager = MissionManager(config, self.sfr)
         
-        self.mission_manager.initialize(config_file)        
+        self.mission_manager.initialize()        
         
         #### call initialize of all 
         # self.clock_manager.initialize_sfr(self.sfr)
