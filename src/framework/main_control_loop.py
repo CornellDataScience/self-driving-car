@@ -4,27 +4,25 @@ import yaml
 import time
 
 class MainControlLoop(ControlTaskBase):
-    def __init__(self):
-        super().__init__()
-
-    def initialize(self, config):
+    def initialize(self):
         # self.sfr = StateFieldRegistry()
 
         self.sfr = StateFieldRegistry()
 
-        self.clock_manager = ClockManager(config, self.sfr)
-        self.read_camera = ReadCamera(config, self.sfr)
-        self.point_tracker = PointTracker(config, self.sfr)
-        self.mission_manager = MissionManager(config, self.sfr)
-        
-        self.mission_manager.initialize()        
+        self.clock_manager = ClockManager(self.config, self.sfr)
+        self.read_camera = ReadCamera(self.config, self.sfr)
+        self.point_tracker = PointTracker(self.config, self.sfr)
+        self.mission_manager = MissionManager(self.config, self.sfr)
         
         #### call initialize of all 
         # self.clock_manager.initialize_sfr(self.sfr)
         # self.clock_manager.initialize_sfr(self.sfr)
 
-    def default(self, sfr: StateFieldRegistry) -> None:
-        pass
+    def default(self) -> None:
+        self.clock_manager.default()
+        self.read_camera.default()
+        self.point_tracker.default()
+        self.mission_manager.default()
 
     def execute(self):
         while(True):

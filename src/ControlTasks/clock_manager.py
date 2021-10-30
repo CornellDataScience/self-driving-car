@@ -3,14 +3,15 @@ import time
 
 class ClockManager(ControlTaskBase):
     def __init__(self, config, sfr):
-        self.time = 0
-        self.config = config
-        self.sfr = sfr
+        super(ClockManager, self).__init__(config, sfr)
 
     def default(self):
-        pass
+        self.sfr.set('time', 0)
 
     def execute(self):
-        print(self.time)
-        self.time += 1
+        local_time = self.sfr.get('time')
+        local_time += 1
+        print(local_time)
+        self.sfr.set('time', local_time)
+
         time.sleep(0.001)
