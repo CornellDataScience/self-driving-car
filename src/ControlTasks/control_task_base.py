@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
-# import sys
-# sys.path.append("..")
+from typing import Dict
 
 from ..sfr import StateFieldRegistry
 # Not really sure how to deal with imports, but ideally want it to be on
@@ -9,7 +8,8 @@ from ..sfr import StateFieldRegistry
 """ Subclasses MUST implement the functions contained here """
 class ControlTaskBase(ABC):
     """ """
-    def __init__(self, sfr: StateFieldRegistry):
+    def __init__(self, config: Dict, sfr: StateFieldRegistry):
+        self.config = config
         self.sfr = sfr
     
     """ Maps keys to default values """

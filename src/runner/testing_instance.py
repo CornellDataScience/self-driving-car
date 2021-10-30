@@ -1,5 +1,6 @@
 from ..sfr.state_field_registry import *
 from ..framework.main_control_loop import *
+import sys
 
 class TInstance():
     """"
@@ -11,10 +12,10 @@ class TInstance():
     - SIM
     """
 
-    def __init__(self):
-        # creates necessary objects
-        self.SFR = StateFieldRegistry()
-        self.MCL = MainControlLoop(self.SFR)
+    def __init__(self, config, sfr, mcl):
+        self.config = config
+        self.sfr = sfr
+        self.mcl = mcl
         
     # Override - in later cases, will want different things
     # like running the SIM or something

@@ -1,25 +1,13 @@
+from .runner.test_case_system import TestCaseSystem
+from src.sfr.state_field_registry import StateFieldRegistry
 from .framework import MainControlLoop
+from .runner.no_sim_test import NoSIM
 import sys
 import yaml
 
 def run():
-    mcl = MainControlLoop()
-
-    # TODO REFACTOR THIS OUT
-    if len(sys.argv) > 2:
-        # Read YAML file
-        file_path = sys.argv[1]
-    else:
-        file_path = 'src/config.yaml'
-
-    with open(file_path, 'r') as stream:
-        config_dict = yaml.safe_load(stream)
-
-    mcl.initialize(config_dict)
-    # END REFACTOR TODO
-
-
-    mcl.execute()
+    tcs = TestCaseSystem()
+    tcs.run()
 
 if __name__ == '__main__':
     run()

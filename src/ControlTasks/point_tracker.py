@@ -1,10 +1,6 @@
 from .control_task_base import ControlTaskBase
 
-class PointTracker(ControlTaskBase):
-    def __init__(self, config, sfr):
-        super.__init__(sfr)
-        self.config = config
-        
+class PointTracker(ControlTaskBase):     
     def initialize(self):
         pass
 
