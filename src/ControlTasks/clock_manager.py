@@ -2,9 +2,6 @@ from .control_task_base import ControlTaskBase
 import time
 
 class ClockManager(ControlTaskBase):
-    def __init__(self, config, sfr):
-        super(ClockManager, self).__init__(config, sfr)
-
     def default(self):
         self.sfr.set('time', 0)
 
