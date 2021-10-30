@@ -53,13 +53,36 @@ def display_frame(frame, prev_frame):
     #     print("", len(matches), " matches found")
     #     frame = cv2.drawMatches(frame, kps, prev_frame, prev_kps, matches[:10], None, 2, flags=2)
 
+    transitory_vec = 0
+    stationary_left_vec = 0
+    stationary_right_vec = 0
+
     for m in matches:
         idx1 = kps[m.trainIdx]
         idx2 = prev_kps[m.queryIdx]
 
         pt1 = (int(idx1.pt[0]), int(idx1.pt[1]))
         pt2 = (int(idx2.pt[0]), int(idx2.pt[1]))
+
+        x1 = pt1[0]
+        x2 = pt2[0]
+
+        transitory_vec += x2 - x1
+        if x2 > frame.shape[1]/2:
+            stationary_right_vec += x2-x1
+        else:
+            stationary_left_vec += x2-x1
+
         if math.hypot(pt1[0]-pt2[0], pt1[1]-pt2[1]) <= 100:
             cv2.line(frame, pt1, pt2, (int(255*(1-m.distance/32)), 0, 0), 2)
+
+    if stationary_left_vec < 0 and stationary_right_vec > 0:
+        print("FORWARD")
+    elif stationary_left_vec > 0 and stationary_right_vec < 0:
+        print("BACKWARD")
+    elif stationary_left_vec < 0 and stationary_right_vec < 0:
+        print("LEFT")
+    elif stationary_left_vec > 0 and stationary_right_vec > 0:
+        print("RIGHT")
 
     return frame

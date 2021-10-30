@@ -1,7 +1,7 @@
-from sfr.state_field_registry import *
-from framework.main_control_loop import *
+from ..sfr.state_field_registry import *
+from ..framework.main_control_loop import *
 
-class TestInstance():
+class TInstance():
     """"
     An abstract class for test instances.
     TestInstances must implement a run function

@@ -1,8 +1,8 @@
-from runner.testing_system import TestInstance
+from .testing_system import TInstance
 
-class NoSIM(TestInstance):
-    def __init__(self):
-        super().__init__()
+class NoSIM(TInstance):
+    # def __init__(self):
+    #     super().__init__()
         # self.SIM = ....
 
     # override
@@ -12,9 +12,17 @@ class NoSIM(TestInstance):
         # MCL.decide() # decide what to do
         self.MCL.execute() # set hardware components to execute decision
 
-    def test_cycle(self):
-        self.MCL.configure() #config
-
+    def test_time1(self):
+        self.MCL.initialize({}) #config
+        self.MCL.default()
         self.run_iteration()
-        assert self.SFR['cycle'] == 1
+        assert self.SFR['time'] == 1
+    
+    def test_time2(self):
+        self.MCL.initialize({}) #config
+        self.MCL.default()
+        for i in range(5):
+            self.run_iteration()
+        assert self.SFR['time'] == 5
+    
     
