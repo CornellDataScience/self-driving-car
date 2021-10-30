@@ -1,3 +1,4 @@
+from src.ControlTasks.time_manager import TimeManager
 from ..ControlTasks import ControlTaskBase, ClockManager, MissionManager, ReadCamera, PointTracker
 from ..sfr import StateFieldRegistry
 import yaml
@@ -13,6 +14,7 @@ class MainControlLoop(ControlTaskBase):
         self.read_camera = ReadCamera(self.config, self.sfr)
         self.point_tracker = PointTracker(self.config, self.sfr)
         self.mission_manager = MissionManager(self.config, self.sfr)
+        self.time_manager = TimeManager(self.config, self.sfr)
         
         #### call initialize of all 
         # self.clock_manager.initialize_sfr(self.sfr)
@@ -26,6 +28,8 @@ class MainControlLoop(ControlTaskBase):
 
     def execute(self):
         while(True):
+            start_time = time.time()
             self.clock_manager.execute()
             self.mission_manager.execute()
+            self.time_manager.execute(start_time)
             time.sleep(0.1) #TODO #3, remove this

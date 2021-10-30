@@ -4,5 +4,6 @@ from .ControlTasks import (
     ClockManager,
     ControlTaskBase,
     MissionManager,
-    TestControlTask
+    TestControlTask,
+    TimeManager
 )
