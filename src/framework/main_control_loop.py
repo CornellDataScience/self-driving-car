@@ -6,20 +6,19 @@ from configparser import ConfigParser
 class MainControlLoop(ControlTaskBase):
     def __init__(self):
         super().__init__()
-        self.initialize()
+        self.clock_manager = ClockManager(self.SFR)
+        self.mission_manager = MissionManager(self.SFR)
 
-    def initialize(self):
-        # self.sfr = StateFieldRegistry()
-        self.clock_manager = ClockManager()
-        self.mission_manager = MissionManager()
-        
+    def configure(self, config):
+        # Tobi's configuration code
+
         # self.clock_manager = ClockManager()
         
         
         #### call initialize of all 
         # self.clock_manager.initialize_sfr(self.sfr)
         # self.clock_manager.initialize_sfr(self.sfr)
-
+        pass
 
     # clockManagerConfig = config_object["CLOCKMANAGER"]
     # MissionManagerConfig = config_object["MISSIONMANAGER"]
@@ -29,11 +28,10 @@ class MainControlLoop(ControlTaskBase):
     # def config(data):
     #     config_object = ConfigParser()
     #     config_object.read(data)
-    def default(self, sfr: StateFieldRegistry) -> None:
+    def default(self) -> None:
         pass
 
     def execute(self):
-        while(True):
-            self.clock_manager.execute()
-            # MissionManager.execute()
-            print("execute")
+        self.clock_manager.execute()
+        # MissionManager.execute()
+        print("execute")

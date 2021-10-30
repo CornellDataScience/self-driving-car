@@ -10,12 +10,9 @@ from ..sfr import StateFieldRegistry
 class ControlTaskBase(ABC):
     """ """
     @abstractmethod
-    def __init__(self):
-        pass
+    def __init__(self, SFR: StateFieldRegistry):
+        self.SFR = SFR
     
-    def initialize_sfr(self, sfr: StateFieldRegistry):
-        self.sfr = sfr
-
     """ Maps keys to default values """
     @abstractmethod
     def default(self)->None:
