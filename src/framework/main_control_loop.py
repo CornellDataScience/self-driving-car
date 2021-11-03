@@ -4,7 +4,7 @@ import yaml
 import time
 
 class MainControlLoop(ControlTaskBase):
-    def initialize(self):
+    def setup(self):
         # self.sfr = StateFieldRegistry()
 
         self.sfr = StateFieldRegistry()
@@ -14,9 +14,8 @@ class MainControlLoop(ControlTaskBase):
         self.point_tracker = PointTracker(self.config, self.sfr)
         self.mission_manager = MissionManager(self.config, self.sfr)
         
-        #### call initialize of all 
-        # self.clock_manager.initialize_sfr(self.sfr)
-        # self.clock_manager.initialize_sfr(self.sfr)
+        self.default()
+        self.setup_control_tasks()
 
     def default(self) -> None:
         self.clock_manager.default()
@@ -24,7 +23,13 @@ class MainControlLoop(ControlTaskBase):
         self.point_tracker.default()
         self.mission_manager.default()
 
+    def setup_control_tasks(self):
+        self.clock_manager.setup()
+        self.read_camera.setup()
+        self.point_tracker.setup()
+        self.mission_manager.setup()
+
     def execute(self):
-            self.clock_manager.execute()
-            self.mission_manager.execute()
-            time.sleep(0.1) #TODO #3, remove this
+        self.clock_manager.execute()
+        self.mission_manager.execute()
+        time.sleep(0.1) #TODO #3, remove this
