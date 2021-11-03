@@ -11,7 +11,7 @@ class ControlTaskBase(ABC):
     def __init__(self, config: Dict, sfr: StateFieldRegistry):
         self.config = config
         self.sfr = sfr
-
+    
     """ Maps keys to default values """
     @abstractmethod
     def default(self)->None:

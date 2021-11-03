@@ -9,9 +9,9 @@ class TestControlTask(ControlTaskBase):
   def __init__(self):
     pass
   
-  def default(self, sfr:StateFieldRegistry):
-    sfr.set("test", True)
+  def default(self):
+    self.SFR.set("test", True)
 
-  def execute(self, sfr:StateFieldRegistry):
-    res = sfr.get("test")
+  def execute(self):
+    res = self.SFR.get("test")
     print(res)

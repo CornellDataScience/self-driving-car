@@ -26,7 +26,6 @@ class MainControlLoop(ControlTaskBase):
         self.mission_manager.default()
 
     def execute(self):
-        while(True):
-            self.clock_manager.execute()
-            self.mission_manager.execute()
-            time.sleep(0.1)  # TODO #3, remove this
+        self.clock_manager.execute()
+        self.mission_manager.execute()
+        time.sleep(0.1)  # TODO #3, remove this
