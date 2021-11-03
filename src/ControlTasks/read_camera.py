@@ -9,4 +9,6 @@ class ReadCamera(ControlTaskBase):
 
     def execute(self):
         print("Read from Camera")
+        # poll the frames
+        # add current frame and update last frame in sfr
         pass

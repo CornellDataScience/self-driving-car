@@ -12,18 +12,5 @@ class NoSIM(TInstance):
     def run(self):
         while True:
             self.run_iteration()
-
-    def test_time1(self):
-        self.mcl.initialize() #config
-        self.mcl.default()
-        self.run_iteration()
-        assert self.sfr.get('time')== 1
-    
-    def test_time2(self):
-        self.mcl.initialize() #config
-        self.mcl.default()
-        for i in range(5):
-            self.run_iteration()
-        assert self.sfr.get('time') == 5
     
     
