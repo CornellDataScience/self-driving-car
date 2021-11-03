@@ -19,8 +19,7 @@ class TestCaseSystem:
     
         self.sfr = StateFieldRegistry()
         self.mcl = MainControlLoop(self.config, self.sfr)
-        self.mcl.initialize()
-        self.mcl.default()
+        self.mcl.setup()
         test = NoSIM(self.config, self.sfr, self.mcl)
         test.run()
 
