@@ -1,5 +1,7 @@
 from .control_task_base import ControlTaskBase
 
+import cv2
+
 
 class ReadCamera(ControlTaskBase):
 
@@ -17,6 +19,7 @@ class ReadCamera(ControlTaskBase):
 
     def execute(self):
         print("Reads frame from camera")
+        vc = cv2.VideoCapture(0)
         # get next frame from camera and push to statefeldregistry
         while rval:
             prev_frame = frame
