@@ -2,7 +2,9 @@ import sys
 import yaml
 from src.framework.main_control_loop import MainControlLoop
 from src.sfr.state_field_registry import StateFieldRegistry
-from src.runner import * # must import all test instance classes, eg clock_test, no_sim_test
+# from src.runner import * # must import all test instance classes, eg clock_test, no_sim_test
+from src.runner.no_sim_test import NoSIM
+# from src.runner.clock_test
 
 class TestCaseSystem:
     def run(self):
@@ -21,7 +23,7 @@ class TestCaseSystem:
         self.mcl.setup()
 
         # load test case
-        test = self.load_test_case("ClockTest")
+        test = self.load_test_case("NoSIM")
         test.run()
 
     def load_test_case(self, test_case_name):

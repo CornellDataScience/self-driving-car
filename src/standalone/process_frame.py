@@ -1,10 +1,7 @@
-# break up into smaller control tasks as needed
-# from ..vision.process_frame_util import process_frame
-from .control_task_base import ControlTaskBase
-
 import numpy as np
 import cv2
 import math
+
 
 def get_features(frame):
 
@@ -41,7 +38,7 @@ def match_frames(des1, des2):
     return matches
 
 
-def process_frame(frame, prev_frame):
+def display_frame(frame, prev_frame):
     # orb = cv2.ORB_create()
     prev_kps, prev_des = get_features(prev_frame)
     kps, des = get_features(frame)
@@ -112,17 +109,3 @@ def process_frame(frame, prev_frame):
     frame = cv2.putText(frame, phrase, loc, cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0))
 
     return frame
-
-
-class ProcessFrame(ControlTaskBase):    
-    def setup(self):
-        pass
-     
-    def default(self):
-        curr_frame = self.sfr.get('curr_frame')
-        self.sfr.set('processed_frame', curr_frame)
-
-    def execute(self):
-        prev_frame = self.sfr.get('prev_frame')
-        curr_frame = self.sfr.get('curr_frame')
-        self.sfr.set('processed_frame', process_frame(prev_frame, curr_frame))

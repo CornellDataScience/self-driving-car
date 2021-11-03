@@ -2,6 +2,7 @@ from ..ControlTasks import ControlTaskBase, ClockManager, MissionManager, ReadCa
 from ..sfr import StateFieldRegistry
 import time
 
+
 class MainControlLoop(ControlTaskBase):
     def setup(self):
         self.sfr = StateFieldRegistry()
@@ -38,6 +39,7 @@ class MainControlLoop(ControlTaskBase):
     def execute(self):
         """Call execute on all control tasks in order."""
         self.clock_manager.execute()
+        self.read_camera.execute()
         self.mission_manager.execute()
         self.process_frame.execute()
         self.display_frame.execute()

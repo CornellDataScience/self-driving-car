@@ -3,7 +3,7 @@ from .control_task_base import ControlTaskBase
 import cv2
 
 class DisplayFrame(ControlTaskBase): 
-    def setup():
+    def setup(self):
         cv2.namedWindow("preview")
 
     def default(self):
