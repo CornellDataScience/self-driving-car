@@ -12,6 +12,8 @@ class ReadCamera(ControlTaskBase):
             rval, frame = vc.read()
         vc.release()
 
+        self.execute()
+
     def default(self):
         self.sfr.set("curr_frame", None)
         self.sfr.set("prev_frame", None)
