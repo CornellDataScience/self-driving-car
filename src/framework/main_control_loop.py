@@ -6,8 +6,6 @@ import time
 class MainControlLoop(ControlTaskBase):
     def setup(self):
         """All the setup required for the MainControlLoop."""
-        self.sfr = StateFieldRegistry()
-
         self.clock_manager = ClockManager(self.config, self.sfr)
         self.read_camera = ReadCamera(self.config, self.sfr)
         self.point_tracker = PointTracker(self.config, self.sfr)
