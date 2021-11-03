@@ -12,7 +12,7 @@ class ReadCamera(ControlTaskBase):
             rval, frame = vc.read()
         vc.release()
 
-        self.execute()
+        self.execute() #TODO REMOVE
 
     def default(self):
         self.sfr.set("curr_frame", None)
