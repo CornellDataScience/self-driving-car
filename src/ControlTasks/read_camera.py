@@ -5,7 +5,7 @@ import cv2
 
 class ReadCamera(ControlTaskBase):
 
-    def initialize(self):
+    def setup(self):
         vc = cv2.VideoCapture(0)
         if vc.isOpened():
             # try to get the first frame
@@ -13,13 +13,16 @@ class ReadCamera(ControlTaskBase):
         vc.release()
 
     def default(self):
-        self.sfr.set("frame", 0)
+        curr_frame = None
+        prev_frame = None
 
     def execute(self):
         print("Reads frame from camera")
         vc = cv2.VideoCapture(0)
+
         # get next frame from camera and push to statefeldregistry
         while rval:
-            rval, frame = vc.read()
+            prev_frame = curr_frame
+            rval, curr_frame = vc.read()
         vc.release()
         self.sfr["frame"] = self.frame
