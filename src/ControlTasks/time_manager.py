@@ -8,17 +8,19 @@ class TimeManager(ControlTaskBase):
         self.sfr = sfr
 
     def default(self):
-        pass
+        self.sfr.set("target_control_cycle_duration",0.1)
 
-    def execute(self, start_time):
+    def execute(self):
         
-        runtime = 10
-        current_time = time.time()
-        elapsed_time = current_time - start_time
-        if elapsed_time < runtime:
-            time.sleep(runtime-elapsed_time)
+        #add start time into sfr 
+        #get start time after all control task calls 
+        start_time = self.sfr.get("now")
+        runtime = self.sfr.get("target_control_cycle_duration")
+        
+        if start_time < runtime:
+            time.sleep(runtime-start_time)
 
-        if elapsed_time >= runtime:
+        if start_time >= runtime:
             print("BAD! Ran for "+ runtime + " seconds")
             
 
