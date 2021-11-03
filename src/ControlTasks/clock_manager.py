@@ -3,6 +3,9 @@ import time
 
 
 class ClockManager(ControlTaskBase):
+    def setup(self):
+        pass
+    
     def default(self):
         self.sfr.set('time', 0)
 
