@@ -32,5 +32,6 @@ class MainControlLoop(ControlTaskBase):
     def execute(self):
         """Call execute on all control tasks in order."""
         self.clock_manager.execute()
+        self.read_camera.execute()
         self.mission_manager.execute()
         time.sleep(0.1) #TODO #3, remove this
