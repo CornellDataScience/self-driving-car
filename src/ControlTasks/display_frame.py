@@ -1,14 +1,15 @@
 # break up into smaller control tasks as needed
-from typing_extensions import ParamSpecArgs
 from .control_task_base import ControlTaskBase
 import cv2
 
-class ProcessedFrame(ControlTaskBase): 
-    def initialize():
-        pass
+class DisplayFrame(ControlTaskBase): 
+    def setup():
+        cv2.namedWindow("preview")
 
     def default(self):
         pass
 
     def execute(self):
-        pass
+        processed_frame = self.sfr.get("processed_frame")
+        cv2.imshow("preview", processed_frame)
+        cv2.waitKey(1)

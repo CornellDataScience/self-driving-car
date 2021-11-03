@@ -33,7 +33,7 @@ def match_frames(des1, des2):
     matches = matcher.match(des1, des2)
 
     # print(matches)
-    matches = [m for m in matches if m.distance <= 32]
+    matches = [m for m in matches if m.distance <= 24]  # Previous Default: 32
     matches = sorted(matches, key=lambda x: x.distance)
     return matches
 
@@ -55,7 +55,9 @@ def display_frame(frame, prev_frame):
 
     transitory_vec = 0
     stationary_left_vec = 0
+    left_count = 0
     stationary_right_vec = 0
+    right_count = 0
 
     for m in matches:
         idx1 = kps[m.trainIdx]
@@ -70,19 +72,40 @@ def display_frame(frame, prev_frame):
         transitory_vec += x2 - x1
         if x2 > frame.shape[1]/2:
             stationary_right_vec += x2-x1
+            right_count += 1
         else:
             stationary_left_vec += x2-x1
+            left_count += 1
 
         if math.hypot(pt1[0]-pt2[0], pt1[1]-pt2[1]) <= 100:
             cv2.line(frame, pt1, pt2, (int(255*(1-m.distance/32)), 0, 0), 2)
 
+    vect = str((stationary_left_vec, stationary_right_vec))
+    adj_vect = str((round(stationary_left_vec/max(1, left_count), 2), round(stationary_right_vec/max(1, right_count), 2)))
+    phrase = "Vectors: " + vect + "Adjusted: " + adj_vect + "Count: " + str((left_count, right_count)) + "=" + str(left_count+right_count)
+
+    # TODO: Possible improvements to direction estimation
+    # - Check ratio of matches between left and right
+    #   (if turning left, there will be more matches on the right)
+    # - Use previous (1 or more) estimation data as well
+    #   (if turning left more likely to be turning left)
+    # - Look at up/down movement for better differentiating FORWARD/BACKWARD
+    # - Give different weightings to vectors depending on match distance
+    # - If average pixel difference is increasing then FORWARD
+    #   If decreasing then BACKWARD (change in pixel distance increases/decreases)
+
     if stationary_left_vec < 0 and stationary_right_vec > 0:
-        print("FORWARD")
+        phrase = "FORWARD  " + phrase
     elif stationary_left_vec > 0 and stationary_right_vec < 0:
-        print("BACKWARD")
+        phrase = "BACKWARD " + phrase
     elif stationary_left_vec < 0 and stationary_right_vec < 0:
-        print("LEFT")
+        phrase = "LEFT     " + phrase
     elif stationary_left_vec > 0 and stationary_right_vec > 0:
-        print("RIGHT")
+        phrase = "RIGHT    " + phrase
+
+    # print(phrase)
+
+    loc = (10, 20)
+    frame = cv2.putText(frame, phrase, loc, cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0))
 
     return frame

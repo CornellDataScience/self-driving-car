@@ -18,8 +18,7 @@ class TestCaseSystem:
 
         self.sfr = StateFieldRegistry()
         self.mcl = MainControlLoop(self.config, self.sfr)
-        self.mcl.initialize()
-        self.mcl.default()
+        self.mcl.setup()
 
         # load test case
         test = self.load_test_case("ClockTest")
