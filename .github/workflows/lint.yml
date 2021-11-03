@@ -3,18 +3,18 @@ name: Python Lint
 on: [pull_request]
 
 jobs:
-  lint:
+  build:
 
     runs-on: ubuntu-latest
 
-steps:
-  - uses: actions/checkout@v1
-  - uses: ricardochaves/python-lint@v1.4.0
-    with:
-      python-root-list: "python_alelo tests"
-      use-pylint: true
-      use-pycodestyle: false
-      use-flake8: false
-      use-black: false
-      use-mypy: false
-      use-isort: false
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ricardochaves/python-lint@v1.4.0
+        with:
+          python-root-list: "python_alelo tests"
+          use-pylint: true
+          use-pycodestyle: false
+          use-flake8: false
+          use-black: false
+          use-mypy: false
+          use-isort: false
