@@ -4,5 +4,7 @@ from .ControlTasks import (
     ClockManager,
     ControlTaskBase,
     MissionManager,
-    TestControlTask
+    PointTracker,
+    ReadCamera,
+    TestControlTask,
 )
