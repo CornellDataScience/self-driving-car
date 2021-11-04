@@ -11,7 +11,12 @@ class ControlTaskBase(ABC):
     def __init__(self, config: Dict, sfr: StateFieldRegistry):
         self.config = config
         self.sfr = sfr
-
+    
+    @abstractmethod
+    def setup(self):
+        """ Setup code that must be called for a given ControlTask """
+        pass
+    
     """ Maps keys to default values """
     @abstractmethod
     def default(self)->None:

@@ -38,7 +38,7 @@ def match_frames(des1, des2):
     return matches
 
 
-def display_frame(frame, prev_frame):
+def process_frame(frame, prev_frame):
     # orb = cv2.ORB_create()
     prev_kps, prev_des = get_features(prev_frame)
     kps, des = get_features(frame)
