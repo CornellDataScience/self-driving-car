@@ -1,3 +1,7 @@
+# from .clock_test import ClockTest
+# from .no_sim_test import NoSIM
+# from .camera_test import CameraTest
+
 # from inspect import isclass
 # from pkgutil import iter_modules
 # from pathlib import Path
