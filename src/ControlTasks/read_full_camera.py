@@ -19,7 +19,8 @@ class ReadFullCamera(ControlTaskBase):
         # Properties
         camRgb.setBoardSocket(dai.CameraBoardSocket.RGB)
         camRgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_1080_P)
-        camRgb.setVideoSize(960, 540)
+        # camRgb.setVideoSize(960, 540)
+        camRgb.setVideoSize(1920, 1080)
 
         xoutVideo.input.setBlocking(False)
         xoutVideo.input.setQueueSize(1)

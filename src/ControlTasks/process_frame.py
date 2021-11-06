@@ -110,14 +110,14 @@ def process_frame(frame, prev_frame):
     elif stationary_left_vec > 0 and stationary_right_vec < 0:
         phrase = "BACKWARD " + phrase
     elif stationary_left_vec < 0 and stationary_right_vec < 0:
-        phrase = "LEFT     " + phrase
-    elif stationary_left_vec > 0 and stationary_right_vec > 0:
         phrase = "RIGHT    " + phrase
+    elif stationary_left_vec > 0 and stationary_right_vec > 0:
+        phrase = "LEFT    " + phrase
 
     # print(phrase)
-
-    loc = (10, 20)
-    frame = cv2.putText(frame, phrase, loc, cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0))
+    sf = 2
+    loc = (10*sf, 20*sf)
+    frame = cv2.putText(frame, phrase, loc, cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 0), 3)
 
     end_time = time.time()
     print("Drawing remaining features time: ", end_time-match_time)
