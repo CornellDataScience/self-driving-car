@@ -6,3 +6,4 @@ from .read_camera import ReadCamera
 from .point_tracker import PointTracker
 from .process_frame import ProcessFrame
 from .display_frame import DisplayFrame
+from .read_full_camera import ReadFullCamera
