@@ -1,11 +1,12 @@
 from .control_task_base import ControlTaskBase
+from ..sfr import StateFieldRegistry
+
 import time
 #control tasks init and sfr init 
 
 class TimeManager(ControlTaskBase):
-    def __init__(self, config, sfr):
+    def __init__(self):
         self.time = 0
-        self.sfr = sfr
 
     def default(self):
         self.sfr.set("target_control_cycle_duration",0.1)
@@ -14,7 +15,8 @@ class TimeManager(ControlTaskBase):
         
         #add start time into sfr 
         #get start time after all control task calls 
-        start_time = self.sfr.get("now")
+        start_time = self.sfr.get("start_time")
+        self.default()
         runtime = self.sfr.get("target_control_cycle_duration")
         
         if start_time < runtime:

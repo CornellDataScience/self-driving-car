@@ -12,7 +12,7 @@ class MainControlLoop(ControlTaskBase):
         self.read_camera = ReadCamera(self.config, self.sfr)
         self.point_tracker = PointTracker(self.config, self.sfr)
         self.mission_manager = MissionManager(self.config, self.sfr)
-        #self.time_manager = TimeManager(self.config, self.sfr)
+        self.time_manager = TimeManager(self.config, self.sfr)
         
         self.default()
         self.setup_control_tasks()
@@ -33,7 +33,10 @@ class MainControlLoop(ControlTaskBase):
 
     def execute(self):
         """Call execute on all control tasks in order."""
+        start_time = time.time()
+        self.sfr.set("start_time",start_time)
         self.clock_manager.execute()
         self.read_camera.execute()
         self.mission_manager.execute()
-        time.sleep(0.1) #TODO #3, remove this
+        self.time_manager.execute()
+        #time.sleep(0.1) #TODO #3, remove this
