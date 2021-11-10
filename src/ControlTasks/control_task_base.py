@@ -1,9 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Dict
-
 from ..sfr import StateFieldRegistry
-# Not really sure how to deal with imports, but ideally want it to be on
-# ControlTaskBase, then TestControlTask inherits from it
 
 """ Subclasses MUST implement the functions contained here """
 class ControlTaskBase(ABC):
