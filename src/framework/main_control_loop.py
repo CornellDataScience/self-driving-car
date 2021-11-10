@@ -1,4 +1,4 @@
-from ..ControlTasks import ControlTaskBase, ClockManager, MissionManager, ReadFullCamera, PointTracker, ProcessFrame, DisplayFrame
+from ..ControlTasks import ControlTaskBase, ClockManager, MissionManager, ReadCamera, PointTracker, ProcessFrame, DisplayFrame
 from ..sfr import StateFieldRegistry
 import time
 
@@ -9,12 +9,12 @@ class MainControlLoop(ControlTaskBase):
 
         """All the setup required for the MainControlLoop."""
         self.clock_manager = ClockManager(self.config, self.sfr)
-        self.read_camera = ReadFullCamera(self.config, self.sfr)
+        self.read_camera = ReadCamera(self.config, self.sfr)
         self.point_tracker = PointTracker(self.config, self.sfr)
         self.mission_manager = MissionManager(self.config, self.sfr)
         self.process_frame = ProcessFrame(self.config, self.sfr)
         self.display_frame = DisplayFrame(self.config, self.sfr)
-
+        
         self.default()
         self.setup_control_tasks()
 

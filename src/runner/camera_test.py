@@ -1,8 +1,10 @@
-from src.runner.testing_instance import TInstance
+sfrom src.runner.testing_instance import TInstance
 
 class CameraTest(TInstance):
-    def run_iteration(self):
+    def cycle(self):
         self.mcl.execute() # set hardware components to execute decision
 
+    # for now, the same as no_sim test, will diverge later
     def run(self):
-        pass
+        while True:
+            self.cycle()

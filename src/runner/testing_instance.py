@@ -20,5 +20,5 @@ class TInstance(ABC):
     # Override - in later cases, will want different things
     # like running the SIM or something
     @abstractmethod
-    def run_iteration(self):
+    def cycle(self):
         pass

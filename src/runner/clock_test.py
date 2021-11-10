@@ -1,7 +1,7 @@
 from src.runner.testing_instance import TInstance
 
 class ClockTest(TInstance):
-    def run_iteration(self):
+    def cycle(self):
         self.mcl.execute() # set hardware components to execute decision
 
     def run(self):
@@ -11,12 +11,12 @@ class ClockTest(TInstance):
     def test_time1(self):
         self.mcl.initialize() #config
         self.mcl.default()
-        self.run_iteration()
+        self.cycle()
         assert self.sfr.get('time')== 1
     
     def test_time2(self):
         self.mcl.initialize() #config
         self.mcl.default()
         for i in range(5):
-            self.run_iteration()
+            self.cycle()
         assert self.sfr.get('time') == 5
