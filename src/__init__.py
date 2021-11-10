@@ -1,8 +1,3 @@
-'''__init__.py for src'''
+"""__init__.py for src"""
 
-from .ControlTasks import (
-    ClockManager,
-    ControlTaskBase,
-    MissionManager,
-    TestControlTask
-)
+from .ControlTasks import ClockManager, ControlTaskBase, MissionManager, TestControlTask

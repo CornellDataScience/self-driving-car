@@ -5,9 +5,11 @@ from .runner.no_sim_test import NoSIM
 import sys
 import yaml
 
+
 def run():
     tcs = TestCaseSystem()
     tcs.run()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     run()

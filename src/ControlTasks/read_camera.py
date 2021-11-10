@@ -1,5 +1,6 @@
 from .control_task_base import ControlTaskBase
 
+
 class ReadCamera(ControlTaskBase):
     def initialize(self):
         pass
