@@ -28,6 +28,5 @@ class TestCaseSystem:
         test.run()
 
     def load_test_case(self, test_case_name):
-        print(globals())
         test = globals()[test_case_name]
         return test(self.config, self.sfr, self.mcl)

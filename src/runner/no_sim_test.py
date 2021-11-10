@@ -3,7 +3,7 @@ from .testing_instance import TInstance
 class NoSIM(TInstance):
 
     # override
-    def run_iteration(self):
+    def cycle(self):
         # mcl.read_sensors() # updates SFR with raw sensor vals/simulated sensor inputs
         # mcl.process() # process sensor values and add to SFR
         # mcl.decide() # decide what to do
@@ -11,6 +11,6 @@ class NoSIM(TInstance):
 
     def run(self):
         while True:
-            self.run_iteration()
+            self.cycle()
     
     
