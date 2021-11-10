@@ -14,8 +14,8 @@ class TestCaseSystem:
         parser = argparse.ArgumentParser("config file, run mode")
         parser.add_argument("--c", type=str,
         help="An optional argument. The configuration file")
-        parser.add_argument("--m", type=str,
-        help="An optional argument. Specifies which mode to run in. By default, runs NoSIM")
+        parser.add_argument("--t", type=str,
+        help="An optional argument. Specifies which tests to run. By default, runs NoSIM")
 
         args = parser.parse_args()
 
@@ -33,8 +33,8 @@ class TestCaseSystem:
 
         # load test case
         test_case_name = "NoSIM"
-        if args.m != None:
-            test_case_name = args.m
+        if args.t != None:
+            test_case_name = args.t
         test = self.load_test_case(test_case_name)
         test.run()
 
