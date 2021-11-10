@@ -3,9 +3,8 @@ import yaml
 from src.framework.main_control_loop import MainControlLoop
 from src.sfr.state_field_registry import StateFieldRegistry
 # from src.runner import * # must import all test instance classes, eg clock_test, no_sim_test
-from .clock_test import ClockTest
-from .no_sim_test import NoSIM
-from .camera_test import CameraTest
+from src.runner.no_sim_test import NoSIM
+# from src.runner.clock_test
 
 class TestCaseSystem:
     def run(self):
