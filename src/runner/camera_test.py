@@ -1,4 +1,4 @@
-sfrom src.runner.testing_instance import TInstance
+from src.runner.testing_instance import TInstance
 
 class CameraTest(TInstance):
     def cycle(self):
