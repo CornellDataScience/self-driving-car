@@ -4,8 +4,7 @@ import cv2
 import depthai as dai
 
 
-class ReadFullCamera(ControlTaskBase):
-
+class DepthCamera(ControlTaskBase):
     def setup(self):
         # Create Pipeline
         pipeline = dai.Pipeline()
@@ -18,7 +17,8 @@ class ReadFullCamera(ControlTaskBase):
 
         # Properties
         camRgb.setBoardSocket(dai.CameraBoardSocket.RGB)
-        camRgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_1080_P)
+        camRgb.setResolution(
+            dai.ColorCameraProperties.SensorResolution.THE_1080_P)
         # camRgb.setVideoSize(960, 540)
         camRgb.setVideoSize(1920, 1080)
 
@@ -28,12 +28,11 @@ class ReadFullCamera(ControlTaskBase):
         # Linking
         camRgb.video.link(xoutVideo.input)
 
-    
         self.pipeline = pipeline
         self.device = dai.Device(self.pipeline)
         # with dai.Device(pipeline) as device:
         #     self.video = device.getOutputQueue(name="video", maxSize=1, blocking=False)
-            # self.videoIn = video.get()
+        # self.videoIn = video.get()
         self.execute()  # TODO: Get rid of later
 
     def default(self):
@@ -44,7 +43,9 @@ class ReadFullCamera(ControlTaskBase):
         print("Reads frame from camera")
         # with self.device as device:
         # video = device.getOutputQueue(name="video", maxSize=1, blocking=False)
-        video = self.device.getOutputQueue(name="video", maxSize=1, blocking=False)
+        video = self.device.getOutputQueue(name="video",
+                                           maxSize=1,
+                                           blocking=False)
         videoIn = video.get()
 
         current = self.sfr.get('curr_frame')

@@ -1,6 +1,6 @@
-from src.ControlTasks.static_frame import StaticFrame
 from ..ControlTasks import (ControlTaskBase, ClockManager, MissionManager,
-ReadCamera, PointTracker, ProcessFrame, DisplayFrame, ReadFullCamera)
+                            Webcam, PointTracker, ProcessFrame, DisplayFrame,
+                            DepthCamera, StaticFrame)
 from ..sfr import StateFieldRegistry
 import time
 
@@ -8,7 +8,6 @@ import time
 class MainControlLoop(ControlTaskBase):
     def setup(self):
         self.sfr = StateFieldRegistry()
-
         """All the setup required for the MainControlLoop."""
         self.clock_manager = ClockManager(self.config, self.sfr)
 
@@ -17,15 +16,15 @@ class MainControlLoop(ControlTaskBase):
             self.read_camera = StaticFrame(self.config, self.sfr)
         elif self.config['run_mode'] == 'HITL':
             if self.config['camera'] == 'webcam':
-                self.read_camera = ReadCamera(self.config, self.sfr)
+                self.read_camera = Webcam(self.config, self.sfr)
             elif self.config['camera'] == 'depthcam':
-                self.read_camera = ReadFullCamera(self.config, self.sfr)
+                self.read_camera = DepthCamera(self.config, self.sfr)
 
         self.point_tracker = PointTracker(self.config, self.sfr)
         self.mission_manager = MissionManager(self.config, self.sfr)
         self.process_frame = ProcessFrame(self.config, self.sfr)
         self.display_frame = DisplayFrame(self.config, self.sfr)
-        
+
         self.default()
         self.setup_control_tasks()
 
@@ -63,8 +62,8 @@ class MainControlLoop(ControlTaskBase):
 
         end_time = time.time()
 
-        print("Read Image time: ", read_time-clock_time)
-        print("Process Image Time: ", process_time-mission_time)
-        print("Display Image Time: ", end_time-process_time)
-        print("Total Time: ", end_time-start_time)
+        print("Read Image time: ", read_time - clock_time)
+        print("Process Image Time: ", process_time - mission_time)
+        print("Display Image Time: ", end_time - process_time)
+        print("Total Time: ", end_time - start_time)
         time.sleep(0.1)  # TODO #3, remove this
