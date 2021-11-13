@@ -26,6 +26,7 @@ class TestCaseSystem:
 
         with open(file_path, 'r') as stream:
             self.config = yaml.safe_load(stream)
+            print(self.config)
 
         self.sfr = StateFieldRegistry()
         self.mcl = MainControlLoop(self.config, self.sfr)

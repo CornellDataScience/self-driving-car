@@ -10,6 +10,7 @@ class ReadCamera(ControlTaskBase):
             # try to get the first frame
             rval, frame = self.vc.read()
 
+        # to make processing code happy
         self.execute() #TODO REMOVE
 
     def default(self):
