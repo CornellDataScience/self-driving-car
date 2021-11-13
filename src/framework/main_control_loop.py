@@ -35,8 +35,10 @@ class MainControlLoop(ControlTaskBase):
 
     def execute(self):
         """Call execute on all control tasks in order."""
-        start_time = time.time()
-        self.sfr.set("start_time",start_time)
+        #start_time = time.time()
+        #can we instead use an "end of last control cycle time 
+        # that is set at the end of execute in clock_manager?
+        #self.sfr.set("start_time",start_time)
         self.clock_manager.execute()
         self.read_camera.execute()
         self.mission_manager.execute()
