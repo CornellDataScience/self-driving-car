@@ -19,6 +19,13 @@ class MainControlLoop(ControlTaskBase):
                 self.read_camera = Webcam(self.config, self.sfr)
             elif self.config['camera'] == 'depthcam':
                 self.read_camera = DepthCamera(self.config, self.sfr)
+            else:
+                raise ValueError(
+                    'invalid camera type. Please choose either webcam or depthcam'
+                )
+        else:
+            raise ValueError(
+                'invalid run mode. Please choose either HOOTL or HITL')
 
         self.point_tracker = PointTracker(self.config, self.sfr)
         self.mission_manager = MissionManager(self.config, self.sfr)
