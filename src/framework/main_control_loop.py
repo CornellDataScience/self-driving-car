@@ -23,6 +23,7 @@ class MainControlLoop(ControlTaskBase):
         self.read_camera.default()
         self.point_tracker.default()
         self.mission_manager.default()
+        self.time_manager.default()
 
     def setup_control_tasks(self):
         """Call the setup functions of all the ControlTasks."""
@@ -30,6 +31,7 @@ class MainControlLoop(ControlTaskBase):
         self.read_camera.setup()
         self.point_tracker.setup()
         self.mission_manager.setup()
+        self.time_manager.setup()
 
     def execute(self):
         """Call execute on all control tasks in order."""

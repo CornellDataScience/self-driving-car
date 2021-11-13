@@ -5,7 +5,7 @@ import time
 #control tasks init and sfr init 
 
 class TimeManager(ControlTaskBase):
-    def __init__(self):
+    def setup(self):
         self.time = 0
 
     def default(self):
