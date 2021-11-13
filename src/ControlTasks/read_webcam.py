@@ -2,15 +2,15 @@ from .control_task_base import ControlTaskBase
 import cv2
 
 
-class ReadCamera(ControlTaskBase):
-
+class Webcam(ControlTaskBase):
     def setup(self):
         self.vc = cv2.VideoCapture(0)
         if self.vc.isOpened():
             # try to get the first frame
             rval, frame = self.vc.read()
 
-        self.execute() #TODO REMOVE
+        # to make processing code happy
+        self.execute()  #TODO REMOVE
 
     def default(self):
         self.sfr.set("curr_frame", None)
