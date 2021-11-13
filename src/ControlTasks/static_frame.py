@@ -1,10 +1,9 @@
 from src.ControlTasks.control_task_base import ControlTaskBase
 
-
 import cv2
 
+
 class StaticFrame(ControlTaskBase):
-    
     def setup(self):
         # load an image saved in the codebase
         self.static_frame = cv2.imread("cornell_road.png")
@@ -16,6 +15,7 @@ class StaticFrame(ControlTaskBase):
         self.sfr.set("prev_frame", None)
 
     """returns a fixed image frame"""
+
     def execute(self):
         self.sfr.set("curr_frame", self.static_frame)
         self.sfr.set("prev_frame", self.static_frame)

@@ -1,5 +1,6 @@
 from src.ControlTasks.static_frame import StaticFrame
-from ..ControlTasks import ControlTaskBase, ClockManager, MissionManager, ReadCamera, PointTracker, ProcessFrame, DisplayFrame
+from ..ControlTasks import (ControlTaskBase, ClockManager, MissionManager,
+ReadCamera, PointTracker, ProcessFrame, DisplayFrame, ReadFullCamera)
 from ..sfr import StateFieldRegistry
 import time
 
@@ -12,10 +13,13 @@ class MainControlLoop(ControlTaskBase):
         self.clock_manager = ClockManager(self.config, self.sfr)
 
         # set how to read images depending on run mode
-        if self.config["run_mode"] == "HOOTL":
-            self.read_camera = ReadCamera(self.config, self.sfr)
-        elif self.config["run_mode"] == "HITL":
+        if self.config['run_mode'] == 'HOOTL':
             self.read_camera = StaticFrame(self.config, self.sfr)
+        elif self.config['run_mode'] == 'HITL':
+            if self.config['camera'] == 'webcam':
+                self.read_camera = ReadCamera(self.config, self.sfr)
+            elif self.config['camera'] == 'depthcam':
+                self.read_camera = ReadFullCamera(self.config, self.sfr)
 
         self.point_tracker = PointTracker(self.config, self.sfr)
         self.mission_manager = MissionManager(self.config, self.sfr)
