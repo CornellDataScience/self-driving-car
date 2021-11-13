@@ -17,35 +17,42 @@ class ControlTaskBase(ABC):
 
     @abstractmethod
     def setup(self):
-        """ Setup code that must be called for a given ControlTask """
+        '''An abstract setup function to be overriden by the child ControlTask.'''
         pass
     
     def full_default(self) -> None:
         '''Common setup call that then calls the child's default.'''
+        self.sfr.set(f'{self.name}.execution_start', time.time())
         self.sfr.set(f'{self.name}.execution_time', 0)
         self.default()
 
     @abstractmethod
     def default(self)->None:
-        """ Maps keys to default values """
+        '''An abstract function where children set default values.'''
         pass
     
     def pre_execute(self) -> None:
-        '''A common pre-execution function'''
+        '''A common pre-execution function.'''
         self.sfr.set(f'{self.name}.execution_start', time.time())
         
     def post_execute(self) -> None:
-        '''A common post-execution function'''
+        '''A common post-execution function.'''
         start_time = self.sfr.get(f'{self.name}.execution_start')
         self.sfr.set(f'{self.name}.execution_time', time.time() - start_time)
     
+    def print_debug_info(self) -> None:
+        '''Print debug information about a control task.'''
+        exec_time = self.sfr.get(f'{self.name}.execution_time')
+        exec_time_shortened = '%.6f' % exec_time
+        print(f'{self.name} took {exec_time_shortened} sec.')
+
     def full_execute(self) -> None:
         '''A parent execution function that also calls pre and post execute.'''
         self.pre_execute()
         self.execute()
         self.post_execute()
+        self.print_debug_info()
 
-    """ Code that executes every cycle """
     @abstractmethod
     def execute(self)->None:
         '''Abstract execution function that children should override.'''
