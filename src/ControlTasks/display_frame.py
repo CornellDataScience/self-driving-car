@@ -2,7 +2,9 @@
 from .control_task_base import ControlTaskBase
 import cv2
 
-class DisplayFrame(ControlTaskBase): 
+
+class DisplayFrame(ControlTaskBase):
+
     def setup(self):
         cv2.namedWindow("preview")
 
@@ -11,5 +13,8 @@ class DisplayFrame(ControlTaskBase):
 
     def execute(self):
         processed_frame = self.sfr.get("processed_frame")
-        cv2.imshow("preview", processed_frame)
+        if processed_frame is not None:
+            cv2.imshow("preview", processed_frame)
+        else:
+            print("Processed_frame was None")
         cv2.waitKey(1)

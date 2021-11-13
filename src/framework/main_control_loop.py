@@ -45,9 +45,22 @@ class MainControlLoop(ControlTaskBase):
 
     def execute(self):
         """Call execute on all control tasks in order."""
+        start_time = time.time()
+
         self.clock_manager.execute()
+        clock_time = time.time()
         self.read_camera.execute()
+        read_time = time.time()
         self.mission_manager.execute()
+        mission_time = time.time()
         self.process_frame.execute()
+        process_time = time.time()
         self.display_frame.execute()
-        time.sleep(0.1) #TODO #3, remove this
+
+        end_time = time.time()
+
+        print("Read Image time: ", read_time-clock_time)
+        print("Process Image Time: ", process_time-mission_time)
+        print("Display Image Time: ", end_time-process_time)
+        print("Total Time: ", end_time-start_time)
+        time.sleep(0.1)  # TODO #3, remove this

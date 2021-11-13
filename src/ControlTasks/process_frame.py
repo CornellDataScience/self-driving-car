@@ -5,13 +5,14 @@ from .control_task_base import ControlTaskBase
 import numpy as np
 import cv2
 import math
+import time
 
 def get_features(frame):
 
     orb = cv2.ORB_create()
 
     # Replacement for orb.detect(frame, None) Gives many more points
-    pts = cv2.goodFeaturesToTrack(np.mean(frame, axis=2).astype(np.uint8), 3000, qualityLevel=0.01, minDistance=7)
+    pts = cv2.goodFeaturesToTrack(np.mean(frame, axis=2).astype(np.uint8), 1000, qualityLevel=0.01, minDistance=7)
 
     # print("pts: ", alt_pts)
 
@@ -43,15 +44,22 @@ def match_frames(des1, des2):
 
 def process_frame(frame, prev_frame):
     # orb = cv2.ORB_create()
+    start_time = time.time()
     prev_kps, prev_des = get_features(prev_frame)
     kps, des = get_features(frame)
+    feature_time = time.time()
+    print("Getting features: ", feature_time-start_time)
     # print(kps)
 
     cv2.drawKeypoints(frame, kps, frame, color=(0, 255, 0), flags=0)
+    draw_points_time = time.time()
+    print("Drawing Points: ", draw_points_time-feature_time)
     # for p in kps:
     #     cv2.circle(frame, (int(p[0]), int(p[1])), color=(0, 255, 0), radius=3)
 
     matches = match_frames(prev_des, des)
+    match_time = time.time()
+    print("Matching Time: ", match_time-draw_points_time)
     # if matches:
     #     print("", len(matches), " matches found")
     #     frame = cv2.drawMatches(frame, kps, prev_frame, prev_kps, matches[:10], None, 2, flags=2)
@@ -102,14 +110,17 @@ def process_frame(frame, prev_frame):
     elif stationary_left_vec > 0 and stationary_right_vec < 0:
         phrase = "BACKWARD " + phrase
     elif stationary_left_vec < 0 and stationary_right_vec < 0:
-        phrase = "LEFT     " + phrase
-    elif stationary_left_vec > 0 and stationary_right_vec > 0:
         phrase = "RIGHT    " + phrase
+    elif stationary_left_vec > 0 and stationary_right_vec > 0:
+        phrase = "LEFT    " + phrase
 
     # print(phrase)
+    sf = 2
+    loc = (10*sf, 20*sf)
+    frame = cv2.putText(frame, phrase, loc, cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 0), 3)
 
-    loc = (10, 20)
-    frame = cv2.putText(frame, phrase, loc, cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0))
+    end_time = time.time()
+    print("Drawing remaining features time: ", end_time-match_time)
 
     return frame
 
