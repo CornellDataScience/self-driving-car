@@ -20,7 +20,7 @@ class TestCaseSystem:
             print(self.config)
 
         self.sfr = StateFieldRegistry()
-        self.mcl = MainControlLoop(self.config, self.sfr)
+        self.mcl = MainControlLoop('main_control_loop', self.config, self.sfr)
         self.mcl.setup()
 
         # load test case
