@@ -8,7 +8,6 @@ class StaticFrame(ControlTaskBase):
         # load an image saved in the codebase
         self.static_frame = cv2.imread("src/resources/cornell_road.png")
         # to make processing code happy
-        # print(self.static_frame)
         self.execute()
 
     def default(self):
