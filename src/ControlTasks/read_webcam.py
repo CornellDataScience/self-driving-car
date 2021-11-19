@@ -1,30 +1,25 @@
 from .control_task_base import ControlTaskBase
-
 import cv2
 
 
-class ReadCamera(ControlTaskBase):
-
+class Webcam(ControlTaskBase):
     def setup(self):
-        vc = cv2.VideoCapture(0)
-        if vc.isOpened():
+        self.vc = cv2.VideoCapture(0)
+        if self.vc.isOpened():
             # try to get the first frame
-            rval, frame = vc.read()
-        vc.release()
+            rval, frame = self.vc.read()
 
-        self.execute() #TODO REMOVE
+        # to make processing code happy
+        self.execute()  #TODO REMOVE
 
     def default(self):
         self.sfr.set("curr_frame", None)
         self.sfr.set("prev_frame", None)
 
     def execute(self):
-        print("Reads frame from camera")
-        vc = cv2.VideoCapture(0)
         current = self.sfr.get('curr_frame')
         self.sfr.set("prev_frame", current)
-        if vc.isOpened():
+        if self.vc.isOpened():
             # try to get the first frame
-            rval, frame = vc.read()
+            rval, frame = self.vc.read()
             self.sfr.set("curr_frame", frame)
-        vc.release()
