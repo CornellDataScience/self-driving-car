@@ -14,7 +14,8 @@ class TestCaseSystem:
         args = self.get_arg_parser()
 
         # Read YAML file
-        file_path = args.config_file_path
+        configs_dir = 'src/configs/'
+        file_path = configs_dir + args.config_file_path
         with open(file_path, 'r') as stream:
             self.config = yaml.safe_load(stream)
             print(self.config)
@@ -37,7 +38,9 @@ class TestCaseSystem:
         parser.add_argument(
             "config_file_path",
             type=str,
-            help="A required argument. The path to YAML configuration file.")
+            help='A required argument. The path to YAML configuration file. '
+                 'The config file must be in the src/configs/ directory.')
+
         parser.add_argument(
             "t",
             type=str,
