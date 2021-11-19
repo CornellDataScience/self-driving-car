@@ -17,6 +17,9 @@ class TestCaseSystem:
         args = self.get_arg_parser()
 
         # Read YAML file
+        if '/' in args.config_file_path:
+            raise NameError("Please use the name of the config file in the config file directory. Ex: hootl.yaml")
+
         file_path = CONFIGS_DIR + args.config_file_path
 
         with open(file_path, 'r') as stream:
