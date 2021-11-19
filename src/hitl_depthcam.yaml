@@ -1,0 +1,2 @@
+run_mode: "HITL" # options, HOOTL (hardware out of the loop), HITL
+camera: "depthcam" # options: webcam, depthcam
