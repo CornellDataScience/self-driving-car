@@ -8,13 +8,17 @@ from .no_sim_test import NoSIM
 from .camera_test import CameraTest
 
 
+CONFIGS_DIR = 'src/configs/'
+
+
 class TestCaseSystem:
     def run(self):
         # creates necessary objects
         args = self.get_arg_parser()
 
         # Read YAML file
-        file_path = args.config_file_path
+        file_path = CONFIGS_DIR + args.config_file_path
+
         with open(file_path, 'r') as stream:
             self.config = yaml.safe_load(stream)
             print(self.config)
@@ -37,7 +41,8 @@ class TestCaseSystem:
         parser.add_argument(
             "config_file_path",
             type=str,
-            help="A required argument. The path to YAML configuration file.")
+            help=f"A required argument. The path to YAML configuration file. "
+                 f"Configs must be in {CONFIGS_DIR}")
         parser.add_argument(
             "t",
             type=str,
