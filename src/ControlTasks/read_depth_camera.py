@@ -1,11 +1,11 @@
 from .control_task_base import ControlTaskBase
 
 import cv2
-import depthai as dai
-
 
 class DepthCamera(ControlTaskBase):
     def setup(self):
+        import depthai as dai # Moving to inside setup to not block things that don't have depthai installed.
+
         # Create Pipeline
         pipeline = dai.Pipeline()
 
