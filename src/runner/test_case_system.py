@@ -17,10 +17,10 @@ class TestCaseSystem:
         args = self.get_arg_parser()
 
         # Read YAML file
-        if '/' in args.config_file_path:
+        if '/' in args.config_file_name:
             raise NameError("Please use the name of the config file in the config file directory. Ex: hootl.yaml")
 
-        file_path = CONFIGS_DIR + args.config_file_path
+        file_path = CONFIGS_DIR + args.config_file_name
 
         with open(file_path, 'r') as stream:
             self.config = yaml.safe_load(stream)
@@ -42,9 +42,9 @@ class TestCaseSystem:
     def get_arg_parser(self):
         parser = argparse.ArgumentParser("config file, run mode")
         parser.add_argument(
-            "config_file_path",
+            "config_file_name",
             type=str,
-            help=f"A required argument. The path to YAML configuration file. "
+            help=f"A required argument. The config file name. "
                  f"Configs must be in {CONFIGS_DIR}")
         parser.add_argument(
             "t",
