@@ -1,3 +1,4 @@
+from src.ControlTasks.display_frame_with_depth import DisplayFrameWithDepth
 from ..ControlTasks import (ControlTaskBase, ClockManager, MissionManager,
                             Webcam, PointTracker, ProcessFrame, DisplayFrame,
                             DepthCamera, StaticFrame)
@@ -30,7 +31,21 @@ class MainControlLoop(ControlTaskBase):
         self.point_tracker = PointTracker('point_tracker', self.config, self.sfr)
         self.mission_manager = MissionManager('mission_manager', self.config, self.sfr)
         self.process_frame = ProcessFrame('process_frame', self.config, self.sfr)
-        self.display_frame = DisplayFrame('display_frame', self.config, self.sfr)
+
+        if self.config['run_mode'] == 'HOOTL':
+            self.display_frame = DisplayFrame('display_frame', self.config, self.sfr)
+        elif self.config['run_mode'] == 'HITL':
+            if self.config['camera'] == 'depthcam':
+                self.display_frame = DisplayFrameWithDepth('display_frame', self.config, self.sfr)
+            elif self.config['camera'] == 'webcam':
+                self.display_frame = DisplayFrame('display_frame', self.config,
+                                                  self.sfr)
+            else:
+                raise ValueError(
+                    'invalid camera type. Please choose either webcam or depthcam'
+                )
+        else:
+            raise ValueError('invalid run mode. Please choose either HOOTL or HITL')
 
         self.default()
         self.setup_control_tasks()
