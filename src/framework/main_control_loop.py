@@ -66,4 +66,3 @@ class MainControlLoop(ControlTaskBase):
         self.display_frame.full_execute()
         self.time_manager.full_execute()
 
-        time.sleep(0.1)  # TODO #3, remove this

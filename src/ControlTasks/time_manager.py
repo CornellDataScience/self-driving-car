@@ -12,7 +12,7 @@ class TimeManager(ControlTaskBase):
 
     def default(self):
         self.sfr.set("start_time", time.time())
-        self.sfr.set("target_control_cycle_duration", 1)
+        self.sfr.set("target_control_cycle_duration", .05)
 
     def execute(self):
 
@@ -35,7 +35,7 @@ class TimeManager(ControlTaskBase):
             #     current_time = time.time()
 
         if current_time - start_time >= runtime:
-            print("BAD! Ran for more than " + str(runtime) + " seconds")
+            print("ERROR! Ran for more than " + str(runtime) + " seconds")
             print('Ran for ' + str(current_time - start_time))
 
         self.sfr.set("start_time", time.time())
