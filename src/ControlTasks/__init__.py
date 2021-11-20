@@ -8,3 +8,5 @@ from .process_frame import ProcessFrame
 from .display_frame import DisplayFrame
 from .read_depth_camera import DepthCamera
 from .read_static_frame import StaticFrame
+from .test_create_point_cloud import TestCreatePointCloud
+from .display_point_cloud import DisplayPointCloud

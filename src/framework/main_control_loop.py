@@ -1,7 +1,7 @@
 from src.ControlTasks.display_frame_with_depth import DisplayFrameWithDepth
 from ..ControlTasks import (ControlTaskBase, ClockManager, MissionManager,
                             Webcam, PointTracker, ProcessFrame, DisplayFrame,
-                            DepthCamera, StaticFrame)
+                            DepthCamera, StaticFrame, TestCreatePointCloud, DisplayPointCloud)
 from ..sfr import StateFieldRegistry
 import time
 
@@ -46,6 +46,9 @@ class MainControlLoop(ControlTaskBase):
                 )
         else:
             raise ValueError('invalid run mode. Please choose either HOOTL or HITL')
+        
+        self.test_create_point_cloud = TestCreatePointCloud('test_create_point_cloud', self.config, self.sfr)
+        self.display_point_cloud = DisplayPointCloud('display_point_cloud', self.config, self.sfr)
 
         self.default()
         self.setup_control_tasks()
@@ -58,6 +61,9 @@ class MainControlLoop(ControlTaskBase):
         self.mission_manager.full_default()
         self.process_frame.full_default()
         self.display_frame.full_default()
+        self.test_create_point_cloud.full_default()
+        self.display_point_cloud.full_default()
+
 
     def setup_control_tasks(self):
         """Call the setup functions of all the ControlTasks."""
@@ -67,6 +73,8 @@ class MainControlLoop(ControlTaskBase):
         self.mission_manager.full_setup()
         self.process_frame.full_setup()
         self.display_frame.full_setup()
+        self.test_create_point_cloud.full_setup()
+        self.display_point_cloud.full_setup()
 
     def execute(self):
         """Call execute on all control tasks in order."""
@@ -76,5 +84,7 @@ class MainControlLoop(ControlTaskBase):
         self.mission_manager.full_execute()
         self.process_frame.full_execute()
         self.display_frame.full_execute()
+        self.test_create_point_cloud.full_execute()
+        self.display_point_cloud.full_execute()
 
-        time.sleep(0.1)  # TODO #3, remove this
+        time.sleep(0.01)  # TODO #3, remove this
