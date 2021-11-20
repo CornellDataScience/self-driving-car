@@ -1,8 +1,8 @@
+import time
 from .control_task_base import ControlTaskBase
 from ..sfr import StateFieldRegistry
 
-import time
-# control tasks init and sfr init
+
 
 
 class TimeManager(ControlTaskBase):
@@ -30,11 +30,8 @@ class TimeManager(ControlTaskBase):
             # print('time to sleep: ' + str(runtime - (current_time - start_time)))
             time.sleep(runtime - (current_time - start_time))
 
-            # while current_time - start_time < runtime:
-            #     time.sleep(0.0000001)
-            #     current_time = time.time()
-
-        if current_time - start_time >= runtime:
+        #if current_time - start_time >= runtime:
+        else:
             print("ERROR! Ran for more than " + str(runtime) + " seconds")
             print('Ran for ' + str(current_time - start_time))
 
