@@ -20,6 +20,8 @@ class DepthCamera(ControlTaskBase):
                                                       maxSize=4,
                                                       blocking=False)
 
+        self.depth_q = self.device.getOutputQueue(name="depth", maxSize=4,blocking=False)
+
         # with dai.Device(pipeline) as device:
         #     self.video = device.getOutputQueue(name="video", maxSize=1, blocking=False)
         # self.videoIn = video.get()
@@ -61,17 +63,19 @@ class DepthCamera(ControlTaskBase):
         # Closer-in minimum depth, disparity range is doubled (from 95 to 190):
         extended_disparity = False
         # Better accuracy for longer distance, fractional disparity 32-levels:
-        subpixel = False
+        subpixel = True
         # Better handling for occlusions:
-        lr_check = False
+        lr_check = True
 
         # Define sources and outputs
         monoLeft = pipeline.create(dai.node.MonoCamera)
         monoRight = pipeline.create(dai.node.MonoCamera)
         depth = pipeline.create(dai.node.StereoDepth)
-        xout = pipeline.create(dai.node.XLinkOut)
+        xoutDisparity = pipeline.create(dai.node.XLinkOut)
+        xoutDepth = pipeline.create(dai.node.XLinkOut)
 
-        xout.setStreamName("disparity")
+        xoutDisparity.setStreamName("disparity")
+        xoutDepth.setStreamName("depth")
 
         # Properties
         monoLeft.setResolution(
@@ -92,7 +96,8 @@ class DepthCamera(ControlTaskBase):
         # Linking
         monoLeft.out.link(depth.left)
         monoRight.out.link(depth.right)
-        depth.disparity.link(xout.input)
+        depth.disparity.link(xoutDisparity.input)
+        depth.depth.link(xoutDepth.input)
 
         self.sfr.set("depth_max_disparity",
                      depth.initialConfig.getMaxDisparity())
@@ -112,11 +117,17 @@ class DepthCamera(ControlTaskBase):
         self.sfr.set("curr_frame", frame)
 
     def depth_execute(self):
-        inDepth = self.disparity_q.get(
+        inDisparity = self.disparity_q.get(
         )  # blocking call, will wait until a new data has arrived
-        depth_frame = inDepth.getFrame()
-        depth_data = inDepth.getData()  # flattened array of depth
+        disparity_frame = inDisparity.getFrame()
+        disparity_data = inDisparity.getData()  # flattened array of depth
+
+        inDepth = self.depth_q.get()
+        depth_frame = inDepth.getCvFrame()
+        depth_data = inDepth.getData()
 
         # populate the SFR
+        self.sfr.set("disparity_frame", disparity_frame)
+        self.sfr.set("disparity_data", disparity_data)
         self.sfr.set("depth_frame", depth_frame)
         self.sfr.set("depth_data", depth_data)

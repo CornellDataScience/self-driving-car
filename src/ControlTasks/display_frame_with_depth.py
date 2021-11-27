@@ -7,7 +7,10 @@ import numpy as np
 class DisplayFrameWithDepth(ControlTaskBase):
     def setup(self):
         cv2.namedWindow("preview")
-        # cv2.namedWindow("depth")
+        cv2.namedWindow("disparity")
+        cv2.namedWindow("depth")
+
+        cv2.moveWindow("depth", 20, 20)
 
     def default(self):
         pass
@@ -19,12 +22,16 @@ class DisplayFrameWithDepth(ControlTaskBase):
         else:
             print("Processed_frame was None")
 
-        depth_frame = (self.sfr.get("depth_frame") *
+        disparity_frame = (self.sfr.get("disparity_frame") *
                        (255 / self.sfr.get("depth_max_disparity"))).astype(
                            np.uint8)
+        if disparity_frame is not None:
+            cv2.imshow("disparity", disparity_frame)
+        else:
+            print("disparity_frame was None")
+
+        depth_frame = self.sfr.get("depth_frame").astype(np.uint16)
         if depth_frame is not None:
             cv2.imshow("depth", depth_frame)
-        else:
-            print("depth_frame was None")
 
         cv2.waitKey(1)
