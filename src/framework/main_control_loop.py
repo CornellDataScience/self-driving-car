@@ -1,7 +1,7 @@
 from src.ControlTasks.display_frame_with_depth import DisplayFrameWithDepth
 from ..ControlTasks import (ControlTaskBase, ClockManager, MissionManager,
                             Webcam, PointTracker, ProcessFrame, DisplayFrame,
-                            DepthCamera, StaticFrame, TestCreatePointCloud, DisplayPointCloud)
+                            DepthCamera, StaticFrame, TestCreatePointCloud, DisplayPointCloud, PointCloud)
 from ..sfr import StateFieldRegistry
 import time
 
@@ -48,6 +48,7 @@ class MainControlLoop(ControlTaskBase):
             raise ValueError('invalid run mode. Please choose either HOOTL or HITL')
         
         self.test_create_point_cloud = TestCreatePointCloud('test_create_point_cloud', self.config, self.sfr)
+        self.point_cloud = PointCloud('point_cloud', self.config, self.sfr)
         self.display_point_cloud = DisplayPointCloud('display_point_cloud', self.config, self.sfr)
 
         self.default()
@@ -62,6 +63,7 @@ class MainControlLoop(ControlTaskBase):
         self.process_frame.full_default()
         self.display_frame.full_default()
         self.test_create_point_cloud.full_default()
+        self.point_cloud.full_default()
         self.display_point_cloud.full_default()
 
 
@@ -73,8 +75,9 @@ class MainControlLoop(ControlTaskBase):
         self.mission_manager.full_setup()
         self.process_frame.full_setup()
         self.display_frame.full_setup()
-        self.test_create_point_cloud.full_setup()
-        self.display_point_cloud.full_setup()
+        #  self.test_create_point_cloud.full_setup()
+        #  self.point_cloud.full_setup()
+        #  self.display_point_cloud.full_setup()
 
     def execute(self):
         """Call execute on all control tasks in order."""
@@ -82,9 +85,10 @@ class MainControlLoop(ControlTaskBase):
         self.clock_manager.full_execute()
         self.read_camera.full_execute()
         self.mission_manager.full_execute()
-        self.process_frame.full_execute()
+        #  self.process_frame.full_execute()
         self.display_frame.full_execute()
-        self.test_create_point_cloud.full_execute()
-        self.display_point_cloud.full_execute()
+        # self.test_create_point_cloud.full_execute()
+        #  self.point_cloud.full_execute()
+        #  self.display_point_cloud.full_execute()
 
         time.sleep(0.01)  # TODO #3, remove this

@@ -10,5 +10,5 @@ class TestCreatePointCloud(ControlTaskBase):
         pass
 
     def execute(self):
-        points = np.random.random((100000, 3)) * 10
+        points = np.zeros((100000, 3)) * 10
         self.sfr.set("point_cloud", points)
