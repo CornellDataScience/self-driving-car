@@ -24,7 +24,7 @@ jobs:
         pip install -r requirements.txt
     - name: Code checks
       run: |
-        sudo scripts/code_formatter.sh
-        sudo scripts/import_formatter.sh
-        sudo scripts/pylint.sh
+        git update-index --chmod=+x scripts/code_formatter.sh
+        sudgit update-index --chmod=+xo scripts/import_formatter.sh
+        git update-index --chmod=+x scripts/pylint.sh
 
