@@ -2,8 +2,9 @@ from abc import ABC, abstractmethod
 from ..sfr.state_field_registry import *
 from ..framework.main_control_loop import *
 
+
 class TInstance(ABC):
-    """"
+    """ "
     An abstract class for test instances.
     TestInstances must implement a run function
 

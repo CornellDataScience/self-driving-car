@@ -1,5 +1,6 @@
 from .control_task_base import ControlTaskBase
 
+
 class PointTracker(ControlTaskBase):
     def setup(self):
         pass

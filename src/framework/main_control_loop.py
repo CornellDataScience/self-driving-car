@@ -1,6 +1,14 @@
-from ..ControlTasks import (ControlTaskBase, ClockManager, MissionManager,
-                            Webcam, PointTracker, ProcessFrame, DisplayFrame,
-                            DepthCamera, StaticFrame)
+from ..ControlTasks import (
+    ControlTaskBase,
+    ClockManager,
+    MissionManager,
+    Webcam,
+    PointTracker,
+    ProcessFrame,
+    DisplayFrame,
+    DepthCamera,
+    StaticFrame,
+)
 from ..sfr import StateFieldRegistry
 import time
 
@@ -9,28 +17,27 @@ class MainControlLoop(ControlTaskBase):
     def setup(self):
         self.sfr = StateFieldRegistry()
         """All the setup required for the MainControlLoop."""
-        self.clock_manager = ClockManager('clock_manager', self.config, self.sfr)
+        self.clock_manager = ClockManager("clock_manager", self.config, self.sfr)
 
         # set how to read images depending on run mode
-        if self.config['run_mode'] == 'HOOTL':
-            self.read_camera = StaticFrame('static_frame_camera', self.config, self.sfr)
-        elif self.config['run_mode'] == 'HITL':
-            if self.config['camera'] == 'webcam':
-                self.read_camera = Webcam('webcam_camera', self.config, self.sfr)
-            elif self.config['camera'] == 'depthcam':
-                self.read_camera = DepthCamera('depth_camera', self.config, self.sfr)
+        if self.config["run_mode"] == "HOOTL":
+            self.read_camera = StaticFrame("static_frame_camera", self.config, self.sfr)
+        elif self.config["run_mode"] == "HITL":
+            if self.config["camera"] == "webcam":
+                self.read_camera = Webcam("webcam_camera", self.config, self.sfr)
+            elif self.config["camera"] == "depthcam":
+                self.read_camera = DepthCamera("depth_camera", self.config, self.sfr)
             else:
                 raise ValueError(
-                    'invalid camera type. Please choose either webcam or depthcam'
+                    "invalid camera type. Please choose either webcam or depthcam"
                 )
         else:
-            raise ValueError(
-                'invalid run mode. Please choose either HOOTL or HITL')
+            raise ValueError("invalid run mode. Please choose either HOOTL or HITL")
 
-        self.point_tracker = PointTracker('point_tracker', self.config, self.sfr)
-        self.mission_manager = MissionManager('mission_manager', self.config, self.sfr)
-        self.process_frame = ProcessFrame('process_frame', self.config, self.sfr)
-        self.display_frame = DisplayFrame('display_frame', self.config, self.sfr)
+        self.point_tracker = PointTracker("point_tracker", self.config, self.sfr)
+        self.mission_manager = MissionManager("mission_manager", self.config, self.sfr)
+        self.process_frame = ProcessFrame("process_frame", self.config, self.sfr)
+        self.display_frame = DisplayFrame("display_frame", self.config, self.sfr)
 
         self.default()
         self.setup_control_tasks()
