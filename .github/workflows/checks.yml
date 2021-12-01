@@ -25,6 +25,6 @@ jobs:
     - name: Code checks
       run: |
         git update-index --chmod=+x scripts/code_formatter.sh
-        sudgit update-index --chmod=+xo scripts/import_formatter.sh
+        git update-index --chmod=+xo scripts/import_formatter.sh
         git update-index --chmod=+x scripts/pylint.sh
 
