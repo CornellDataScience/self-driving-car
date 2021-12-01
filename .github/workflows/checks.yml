@@ -24,7 +24,7 @@ jobs:
         pip install -r requirements.txt
     - name: Code checks
       run: |
-        .github/scripts/code_formatter
-        .github/scripts/import_formatter
-        .github/scripts/pylint
+        ../scripts/code_formatter
+        ../scripts/import_formatter
+        ../scripts/pylint
 
