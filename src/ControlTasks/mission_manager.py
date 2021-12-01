@@ -1,9 +1,8 @@
 from .control_task_base import ControlTaskBase
-import time
 
 
 class MissionManager(ControlTaskBase):
-    def initialize(self):
+    def setup(self):
         self.var1 = self.config["var1"]
         self.var2 = self.config["var2"]
         self.var3 = self.config["var3"]

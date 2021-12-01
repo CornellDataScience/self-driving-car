@@ -3,7 +3,6 @@
 from .control_task_base import ControlTaskBase
 
 from ..sfr import StateFieldRegistry
-
 """ This test control task demonstrates how to set and read info from the SFR"""
 
 
@@ -12,8 +11,8 @@ class TestControlTask(ControlTaskBase):
         pass
 
     def default(self):
-        self.SFR.set("test", True)
+        self.sfr.set("test", True)
 
     def execute(self):
-        res = self.SFR.get("test")
+        res = self.sfr.get("test")
         print(res)

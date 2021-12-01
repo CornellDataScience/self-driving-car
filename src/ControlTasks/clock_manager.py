@@ -3,13 +3,15 @@ import time
 
 
 class ClockManager(ControlTaskBase):
+    def setup(self):
+        pass
+    
     def default(self):
-        self.sfr.set("time", 0)
+        self.sfr.set('cycle_num', 0)
 
     def execute(self):
-        local_time = self.sfr.get("time")
-        local_time += 1
-        print(local_time)
-        self.sfr.set("time", local_time)
+        cycle_num = self.sfr.get('cycle_num')
+        cycle_num += 1
 
-        time.sleep(0.001)
+        print(f'[INFO] Cycle_num: {cycle_num}')
+        self.sfr.set('cycle_num', cycle_num)

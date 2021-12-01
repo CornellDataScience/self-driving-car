@@ -1,0 +1,7 @@
+---
+var1: "variable 1"
+var2: "variable 2"
+var3: "variable 3"
+run_mode: "HOOTL" # options, HOOTL (hardware out of the loop), HITL
+camera: "webcam" # options: webcam, depthcam
+
