@@ -27,6 +27,6 @@ jobs:
         git update-index --chmod=+x scripts/pylint.sh
         git update-index --chmod=+x scripts/code_formatter.sh
         git update-index --chmod=+x scripts/import_formatter.sh
-        scripts/pylint.sh
+        sudo scripts/pylint.sh
         
 
