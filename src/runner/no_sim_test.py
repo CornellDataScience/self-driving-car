@@ -13,5 +13,3 @@ class NoSIM(TInstance):
     def run(self):
         while True:
             self.cycle()
-    
-    
