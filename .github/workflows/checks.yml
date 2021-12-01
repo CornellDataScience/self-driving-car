@@ -24,7 +24,8 @@ jobs:
         pip install -r requirements.txt
     - name: Code checks
       run: |
+        git update-index --chmod=+x scripts/pylint.sh
         git update-index --chmod=+x scripts/code_formatter.sh
         git update-index --chmod=+x scripts/import_formatter.sh
-        git update-index --chmod=+x scripts/pylint.sh
+        
 
