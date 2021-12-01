@@ -24,7 +24,7 @@ jobs:
         pip install -r requirements.txt
     - name: Code checks
       run: |
-        code_formatter.sh
-        import_formatter.sh
-        pylint.sh
+        .github\workflows\code_formatter.sh
+        .github\workflows\code_formatter.sh
+        .github\workflows\code_formatter.sh
 
