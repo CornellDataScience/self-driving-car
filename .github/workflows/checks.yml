@@ -24,7 +24,7 @@ jobs:
         pip install -r requirements.txt
     - name: Code checks
       run: |
-        scripts/code_formatter.sh
-        scripts/import_formatter.sh
-        scripts/pylint.sh
+        sudo scripts/code_formatter.sh
+        sudo scripts/import_formatter.sh
+        sudo scripts/pylint.sh
 
