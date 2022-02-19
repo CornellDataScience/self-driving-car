@@ -11,7 +11,27 @@ Please take a look at our issue ticket board to see what we're currently working
 We use a mixed HOOTL, HITL, and Flight-like testing/iteration strategy similar to SpaceX.
 
 
+## Installation
+
+See `INSTALL.md`.
+
 ## Run the MCL
 
+Always remember to have the virtual environment `venv` activated with: 
+
+```
 . venv/bin/activate
+```
+
+### Actually running the MCL
+
+Our code is structured as a module: `src` we invoke it with for example:
+
+
+```
 python -m src hootl.yaml NoSIM
+```
+
+This means to use the `hootl.yaml` configuration file in `src/configs`, along with the
+`NoSIM` testcase under `runner/`. You can go to those directories respectively to find more config files
+and more test cases.
