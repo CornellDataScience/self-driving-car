@@ -1,7 +1,7 @@
 # self-driving-car
 This is a multi-year project undertaken by the Cornell Data Science team intended to demonstrate autopilot for a full-size car.
 
-CDS Self-Driving Car aims to demonstrate tight integration of a camera based vision algorithm to navigate a car safely. We utilize a SLAM system to localize ourselves, and an additional lane recognition pipeline to see the road. This is all built upon a Python control loop and will directly actuate the steering wheel to augment a normal car.
+CDS Self-Driving Car aims to demonstrate tight integration of a camera based vision algorithm to navigate a car safely. We utilize a SLAM system to localize ourselves, and an additional lane recognition pipeline to see the road. This is all built upon a Python control loop and will leverage robotics to directly actuate the steering wheel to augment a normal car.
 
 ## Team
 This ambitious project is being lead by Iris Li, Edward Gu, Tobi Alade, Elias Little, Eric Zhang, Adarsh Sriram, and Shihao Cao
