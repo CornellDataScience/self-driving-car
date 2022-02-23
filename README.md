@@ -10,6 +10,13 @@ Please take a look at our issue ticket board to see what we're currently working
 ## Organization and Workflow
 We use a mixed HOOTL, HITL, and Flight-like testing/iteration strategy similar to SpaceX.
 
+## Building and running docker
+1. Download docker desktop: https://www.docker.com/products/docker-desktop
+2. Build docker image
+  - In MacOS run: "docker build --tag self-driving-car ."
+3. Running the docker image
+  - runDocker.sh script will setup enviorment/ permissions and run docker image
+    - Run: "sh runDocker.sh"
 
 ## Run the MCL
 
