@@ -13,10 +13,13 @@ We use a mixed HOOTL, HITL, and Flight-like testing/iteration strategy similar t
 ## Building and running docker
 1. Download docker desktop: https://www.docker.com/products/docker-desktop
 2. Build docker image
-  - In MacOS run: "docker build --tag self-driving-car ."
+  - Run: "docker build --tag self-driving-car ."
 3. Running the docker image
   - runDocker.sh script will setup enviorment/ permissions and run docker image
     - Run: "sh runDocker.sh"
+
+*To edit the docker image, edit "dockerfile" 
+*To edit the process of changing the enviorment and running the image, edit "runDocker.sh"
 
 ## Run the MCL
 
