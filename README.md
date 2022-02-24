@@ -15,3 +15,11 @@ We use a mixed HOOTL, HITL, and Flight-like testing/iteration strategy similar t
 
 . venv/bin/activate
 python -m src hootl.yaml NoSIM
+
+# Linting
+The linting will run automatically on every push to master but to check things locally uou can run:
+- "sh code_formatter.sh" to format code
+- "sh import_formatter.sh" to format import statements
+- "sh pylint.sh" to run pylint, our main linter
+* All of these files are under "scripts"
+* To change our linting requirements edit config.pylintrc
