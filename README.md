@@ -24,4 +24,4 @@ We use a mixed HOOTL, HITL, and Flight-like testing/iteration strategy similar t
 ## Run the MCL
 
 . venv/bin/activate
-python -m src
+python -m src hootl.yaml NoSIM
