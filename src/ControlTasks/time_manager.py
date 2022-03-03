@@ -16,18 +16,12 @@ class TimeManager(ControlTaskBase):
 
     def execute(self):
 
-        # add start time into sfr
-        # get start time after all control task calls
         current_time = time.time()
         start_time = self.sfr.get("start_time")
         runtime = self.sfr.get("target_control_cycle_duration")
 
         if current_time - start_time < runtime:
-            # print(current_time)
-            # print(start_time)
-            # print('elapsed time: ' + str(current_time - start_time))
-            # print('runtime: ' + str(runtime))
-            # print('time to sleep: ' + str(runtime - (current_time - start_time)))
+            
             time.sleep(runtime - (current_time - start_time))
 
         #if current_time - start_time >= runtime:

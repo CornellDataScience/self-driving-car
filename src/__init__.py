@@ -5,6 +5,6 @@ from .ControlTasks import (
     ControlTaskBase,
     MissionManager,
     TestControlTask,
-    TimeManager
+    TimeManager,
 )
 from . import ControlTasks, framework, runner, sfr, vision
