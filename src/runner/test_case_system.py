@@ -8,16 +8,35 @@ from .no_sim_test import NoSIM
 from .camera_test import CameraTest
 
 
+CONFIGS_DIR = 'src/configs/'
+
+
 class TestCaseSystem:
+    '''A class for setting up the MCL and SFR and running it within a test case.'''
+
+    @staticmethod
+    def load_yaml(config_file_name: str) -> dict:
+        '''Reads in the yaml config dict given the config_file_name.
+        
+            Raises: NameError if the name of the config_file contains /'s indicating a full path.
+            Returns: a dictionary of the configuration
+        '''
+        if '/' in config_file_name:
+            raise NameError("Please use the name of the config file in the config file directory. Ex: hootl.yaml")
+
+        file_path = CONFIGS_DIR + config_file_name
+        config = None
+        with open(file_path, 'r') as stream:
+            config = yaml.safe_load(stream)
+            
+        return config
+
+
     def run(self):
         # creates necessary objects
         args = self.get_arg_parser()
 
-        # Read YAML file
-        file_path = args.config_file_path
-        with open(file_path, 'r') as stream:
-            self.config = yaml.safe_load(stream)
-            print(self.config)
+        self.config = TestCaseSystem.load_yaml(args.config_file_name)
 
         self.sfr = StateFieldRegistry()
         self.mcl = MainControlLoop('main_control_loop', self.config, self.sfr)
@@ -35,9 +54,10 @@ class TestCaseSystem:
     def get_arg_parser(self):
         parser = argparse.ArgumentParser("config file, run mode")
         parser.add_argument(
-            "config_file_path",
+            "config_file_name",
             type=str,
-            help="A required argument. The path to YAML configuration file.")
+            help=f"A required argument. The config file name. "
+                 f"Configs must be in {CONFIGS_DIR}")
         parser.add_argument(
             "t",
             type=str,

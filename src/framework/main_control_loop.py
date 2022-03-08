@@ -1,4 +1,9 @@
+ ericzhang
 from ..ControlTasks import (ControlTaskBase, ClockManager, MissionManager, TimeManager,
+
+from typing import List
+from ..ControlTasks import (ControlTaskBase, ClockManager, MissionManager,
+ main
                             Webcam, PointTracker, ProcessFrame, DisplayFrame,
                             DepthCamera, StaticFrame)
 from ..sfr import StateFieldRegistry
@@ -33,11 +38,27 @@ class MainControlLoop(ControlTaskBase):
         self.display_frame = DisplayFrame('display_frame', self.config, self.sfr)
         self.time_manager = TimeManager('time_manager',self.config,self.sfr)
 
+        # All ControlTasks must be added here to be setup and run.
+        self.ct_list: List[ControlTaskBase] = [
+            self.clock_manager,
+            self.read_camera,
+            self.point_tracker,
+            self.mission_manager,
+            self.process_frame,
+            self.display_frame
+        ]
+        
+        # Lists ready to re-order if required
+        self.default_ct_list = self.ct_list
+        self.setup_ct_list = self.ct_list
+        self.execute_ct_list = self.ct_list
+
         self.default()
         self.setup_control_tasks()
 
     def default(self) -> None:
         """Call the default functions of all the ControlTasks."""
+ ericzhang
         self.clock_manager.full_default()
         self.read_camera.full_default()
         self.point_tracker.full_default()
@@ -65,4 +86,18 @@ class MainControlLoop(ControlTaskBase):
         self.process_frame.full_execute()
         self.display_frame.full_execute()
         self.time_manager.full_execute()
+
+        for ct in self.default_ct_list:
+            ct.full_default()
+
+    def setup_control_tasks(self):
+        """Call the setup functions of all the ControlTasks."""
+        for ct in self.setup_ct_list:
+            ct.full_setup()
+
+    def execute(self):
+        """Call the execute functions of all the ControlTasks."""
+        for ct in self.execute_ct_list:
+            ct.full_execute()
+ main
 
