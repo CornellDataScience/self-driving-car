@@ -1,9 +1,5 @@
- ericzhang
-from ..ControlTasks import (ControlTaskBase, ClockManager, MissionManager, TimeManager,
-
 from typing import List
 from ..ControlTasks import (ControlTaskBase, ClockManager, MissionManager,
- main
                             Webcam, PointTracker, ProcessFrame, DisplayFrame,
                             DepthCamera, StaticFrame)
 from ..sfr import StateFieldRegistry
@@ -36,7 +32,6 @@ class MainControlLoop(ControlTaskBase):
         self.mission_manager = MissionManager('mission_manager', self.config, self.sfr)
         self.process_frame = ProcessFrame('process_frame', self.config, self.sfr)
         self.display_frame = DisplayFrame('display_frame', self.config, self.sfr)
-        self.time_manager = TimeManager('time_manager',self.config,self.sfr)
 
         # All ControlTasks must be added here to be setup and run.
         self.ct_list: List[ControlTaskBase] = [
@@ -58,35 +53,6 @@ class MainControlLoop(ControlTaskBase):
 
     def default(self) -> None:
         """Call the default functions of all the ControlTasks."""
- ericzhang
-        self.clock_manager.full_default()
-        self.read_camera.full_default()
-        self.point_tracker.full_default()
-        self.mission_manager.full_default()
-        self.process_frame.full_default()
-        self.display_frame.full_default()
-        self.time_manager.full_default()
-
-    def setup_control_tasks(self):
-        """Call the setup functions of all the ControlTasks."""
-        self.clock_manager.full_setup()
-        self.read_camera.full_setup()
-        self.point_tracker.full_setup()
-        self.mission_manager.full_setup()
-        self.process_frame.full_setup()
-        self.display_frame.full_setup()
-        self.time_manager.full_setup()
-
-    def execute(self):
-        """Call execute on all control tasks in order."""
-
-        self.clock_manager.full_execute()
-        self.read_camera.full_execute()
-        self.mission_manager.full_execute()
-        self.process_frame.full_execute()
-        self.display_frame.full_execute()
-        self.time_manager.full_execute()
-
         for ct in self.default_ct_list:
             ct.full_default()
 
@@ -99,5 +65,5 @@ class MainControlLoop(ControlTaskBase):
         """Call the execute functions of all the ControlTasks."""
         for ct in self.execute_ct_list:
             ct.full_execute()
- main
 
+        time.sleep(0.1)  # TODO #3, remove this
