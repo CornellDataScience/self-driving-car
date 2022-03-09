@@ -1,7 +1,6 @@
 from .clock_manager import ClockManager
 from .control_task_base import ControlTaskBase
 from .mission_manager import MissionManager
-from .time_manager import TimeManager
 from .test_control_task import TestControlTask
 from .read_webcam import Webcam
 from .point_tracker import PointTracker
