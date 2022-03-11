@@ -22,7 +22,7 @@ jobs:
         pip install -r requirements.txt
     - name: Code checks
       run: |
-        sudo pylint src --fail-under=8
+         pylint src --fail-under=10
         
         
 
