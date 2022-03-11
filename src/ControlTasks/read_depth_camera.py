@@ -1,10 +1,10 @@
 from .control_task_base import ControlTaskBase
 
-import cv2
+
 
 class DepthCamera(ControlTaskBase):
     def setup(self):
-        import depthai as dai # Moving to inside setup to not block things that don't have depthai installed.
+        import depthai as dai  # Moving to inside setup to not block things that don't have depthai installed.
 
         # Create Pipeline
         pipeline = dai.Pipeline()
@@ -17,8 +17,7 @@ class DepthCamera(ControlTaskBase):
 
         # Properties
         camRgb.setBoardSocket(dai.CameraBoardSocket.RGB)
-        camRgb.setResolution(
-            dai.ColorCameraProperties.SensorResolution.THE_1080_P)
+        camRgb.setResolution(dai.ColorCameraProperties.SensorResolution.THE_1080_P)
         # camRgb.setVideoSize(960, 540)
         camRgb.setVideoSize(1920, 1080)
 
@@ -43,12 +42,10 @@ class DepthCamera(ControlTaskBase):
         print("Reads frame from camera")
         # with self.device as device:
         # video = device.getOutputQueue(name="video", maxSize=1, blocking=False)
-        video = self.device.getOutputQueue(name="video",
-                                           maxSize=1,
-                                           blocking=False)
+        video = self.device.getOutputQueue(name="video", maxSize=1, blocking=False)
         videoIn = video.get()
 
-        current = self.sfr.get('curr_frame')
+        current = self.sfr.get("curr_frame")
         self.sfr.set("prev_frame", current)
 
         frame = videoIn.getCvFrame()

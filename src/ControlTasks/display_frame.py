@@ -4,7 +4,6 @@ import cv2
 
 
 class DisplayFrame(ControlTaskBase):
-
     def setup(self):
         cv2.namedWindow("preview")
 

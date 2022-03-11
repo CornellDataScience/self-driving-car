@@ -1,9 +1,8 @@
 from abc import ABC, abstractmethod
-from ..sfr.state_field_registry import *
-from ..framework.main_control_loop import *
+
 
 class TInstance(ABC):
-    """"
+    """ "
     An abstract class for test instances.
     TestInstances must implement a run function
 
@@ -16,7 +15,7 @@ class TInstance(ABC):
         self.config = config
         self.sfr = sfr
         self.mcl = mcl
-        
+
     # Override - in later cases, will want different things
     # like running the SIM or something
     @abstractmethod
