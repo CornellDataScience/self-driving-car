@@ -24,10 +24,7 @@ jobs:
         pip install -r requirements.txt
     - name: Code checks
       run: |
-        git update-index --chmod=+x scripts/pylint.sh
-        git update-index --chmod=+x scripts/code_formatter.sh
-        git update-index --chmod=+x scripts/import_formatter.sh
-        sudo sh scripts/pylint.sh
+        sudo pylint src --fail-under=8 --rcfile=config.pylintrc
         
         
 

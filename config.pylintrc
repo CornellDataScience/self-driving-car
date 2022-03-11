@@ -139,7 +139,8 @@ disable=print-statement,
         deprecated-sys-function,
         exception-escape,
         comprehension-escape,
-        import-error
+        import-error,
+        invalid-name
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option
@@ -199,10 +200,6 @@ allow-global-unused-variables=yes
 callbacks=cb_,
           _cb
 
-# A regular expression matching the name of dummy variables (i.e. expected to
-# not be used).
-dummy-variables-rgx=_+$|(_[a-zA-Z0-9_]*[a-zA-Z0-9]+?$)|dummy|^ignored_|^unused_
-
 # Argument names that match this expression will be ignored. Default to name
 # with leading underscore.
 ignored-argument-names=_.*|^ignored_|^unused_
@@ -217,15 +214,9 @@ redefining-builtins-modules=six.moves,past.builtins,future.builtins,builtins,io
 
 [BASIC]
 
-# Naming style matching correct argument names.
-argument-naming-style=snake_case
-
 # Regular expression matching correct argument names. Overrides argument-
 # naming-style.
 #argument-rgx=
-
-# Naming style matching correct attribute names.
-attr-naming-style=snake_case
 
 # Regular expression matching correct attribute names. Overrides attr-naming-
 # style.
@@ -264,9 +255,6 @@ const-naming-style=UPPER_CASE
 # ones are exempt.
 docstring-min-length=-1
 
-# Naming style matching correct function names.
-function-naming-style=snake_case
-
 # Regular expression matching correct function names. Overrides function-
 # naming-style.
 #function-rgx=
@@ -289,15 +277,9 @@ inlinevar-naming-style=any
 # inlinevar-naming-style.
 #inlinevar-rgx=
 
-# Naming style matching correct method names.
-method-naming-style=snake_case
-
 # Regular expression matching correct method names. Overrides method-naming-
 # style.
 #method-rgx=
-
-# Naming style matching correct module names.
-module-naming-style=snake_case
 
 # Regular expression matching correct module names. Overrides module-naming-
 # style.
@@ -315,13 +297,6 @@ no-docstring-rgx=^_
 # to this list to register other decorators that produce valid properties.
 # These decorators are taken in consideration only for invalid-name.
 property-classes=abc.abstractproperty
-
-# Naming style matching correct variable names.
-variable-naming-style=snake_case
-
-# Regular expression matching correct variable names. Overrides variable-
-# naming-style.
-#variable-rgx=
 
 
 [SPELLING]
