@@ -1,2 +1,6 @@
 opencv-python
 pyyaml
+yapf
+pylint
+isort
+autoflake

@@ -18,8 +18,13 @@ python -m src hootl.yaml NoSIM
 
 # Linting
 The linting will run automatically on every push to master but to check things locally uou can run:
-- "sh code_formatter.sh" to format code
-- "sh import_formatter.sh" to format import statements
-- "sh pylint.sh" to run pylint, our main linter
-* All of these files are under "scripts"
+- To run pylint, our main linter run:
+  - pylint src --fail-under=8 --rcfile=scripts/config.pylintrc *.py
+- To automatically format our code run:
+  - yapf --in-place src/*.py
+- "sh import_formatter.sh" To automatically format import statements run:
+  - autoflake --in-place --remove-unused-variables --remove-all-unused-imports *.py
+  - isort .
+
+
 * To change our linting requirements edit config.pylintrc
