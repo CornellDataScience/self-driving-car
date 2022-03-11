@@ -17,12 +17,12 @@ We use a mixed HOOTL, HITL, and Flight-like testing/iteration strategy similar t
 python -m src hootl.yaml NoSIM
 
 # Linting
-The linting will run automatically on every push to master but to check things locally uou can run:
+The linting will run automatically on every push and pull request but to check things locally uou can run:
 - To run pylint, our main linter run:
-  - pylint src --fail-under=8 --rcfile=config.pylintrc
+  - pylint src --fail-under=8
 - To automatically format our code run:
   - yapf --in-place src/*.py
-- "sh import_formatter.sh" To automatically format import statements run:
+- To automatically format import statements run:
   - autoflake --in-place --remove-unused-variables --remove-all-unused-imports *.py
   - isort .
 
