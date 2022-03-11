@@ -1,5 +1,6 @@
 from .control_task_base import ControlTaskBase
 
+
 class MissionManager(ControlTaskBase):
     def setup(self):
         self.var1 = self.config["var1"]

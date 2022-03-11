@@ -15,3 +15,16 @@ We use a mixed HOOTL, HITL, and Flight-like testing/iteration strategy similar t
 
 . venv/bin/activate
 python -m src hootl.yaml NoSIM
+
+# Linting
+The linting will run automatically on every push and pull request but to check things locally uou can run:
+- To run pylint, our main linter run:
+  - ```pylint src --fail-under=8```
+- To automatically format our code run:
+  - ```yapf --in-place src/*.py```
+- To automatically format import statements run:
+  - ```autoflake --in-place --remove-unused-variables --remove-all-unused-imports *.py```
+  - ```isort .```
+
+
+* To change our linting requirements edit config.pylintrc
