@@ -19,7 +19,7 @@ python -m src hootl.yaml NoSIM
 # Linting
 The linting will run automatically on every push to master but to check things locally uou can run:
 - To run pylint, our main linter run:
-  - pylint src --fail-under=8 --rcfile=scripts/config.pylintrc *.py
+  - pylint src --fail-under=8 --rcfile=config.pylintrc
 - To automatically format our code run:
   - yapf --in-place src/*.py
 - "sh import_formatter.sh" To automatically format import statements run:
