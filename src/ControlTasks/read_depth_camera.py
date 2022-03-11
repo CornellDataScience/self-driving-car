@@ -1,6 +1,5 @@
 from .control_task_base import ControlTaskBase
 
-import cv2
 
 
 class DepthCamera(ControlTaskBase):

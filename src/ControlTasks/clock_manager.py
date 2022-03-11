@@ -1,5 +1,4 @@
 from .control_task_base import ControlTaskBase
-import time
 
 
 class ClockManager(ControlTaskBase):

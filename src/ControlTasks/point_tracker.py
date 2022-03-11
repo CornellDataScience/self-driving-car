@@ -10,4 +10,3 @@ class PointTracker(ControlTaskBase):
 
     def execute(self):
         print("Tracking points.")
-        pass
