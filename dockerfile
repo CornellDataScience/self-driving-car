@@ -24,4 +24,6 @@ ENV QT_X11_NO_MITSHM=1
 
 COPY . .
 
-CMD [ "python3", "-m", "src", "hootl.yaml", "NoSIM"]
+#CMD [ "python3", "-m", "src", "hootl.yaml", "NoSIM"]
+
+#CMD [ "python3", "-m", "src"]

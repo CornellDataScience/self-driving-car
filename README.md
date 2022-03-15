@@ -18,8 +18,8 @@ We use a mixed HOOTL, HITL, and Flight-like testing/iteration strategy similar t
   - When QT works runDocker.sh script will setup enviorment/ permissions and run docker image
     - Run: "sh runDocker.sh"
   - For now comment out any display_frame refrences in main control loop
-    - Then run: "docker run self-driving-car config_file_name test_case_name"
-    - For example: "docker run self-driving-car hootl.yaml NoSIM"
+    - Then run: "sudo docker run self-driving-car python3 -m src config_file_name test_case_name"
+    - For example: "sudo docker run self-driving-car python3 -m src hootl.yaml NoSIM"
 
 *To edit the docker image, edit "dockerfile" 
 *To edit the process of changing the enviorment and running the image, edit "runDocker.sh"
