@@ -52,9 +52,10 @@ if __name__ == '__main__':
     durations = []
     # Iterates through set of frames
     # TODO: Change to working on video stream
-    for i in range(len(dataset))[:100]: 
-        featurel = ImageFeature(dataset.left[i], params) # process_frame.get_features(Cam.left)
-        featurer = ImageFeature(dataset.right[i], params) # process_frame.get_features(Cam.right)
+    #  for i in range(len(dataset))[:100]:
+    while True:
+        featurel = ImageFeature(Cam.left(), params) # process_frame.get_features(Cam.left)
+        featurer = ImageFeature(Cam.right(), params) # process_frame.get_features(Cam.right)
         timestamp = dataset.timestamps[i]
 
         time_start = time.time()  
@@ -64,7 +65,7 @@ if __name__ == '__main__':
         featurel.extract()
         t.join()
         
-        frame = StereoFrame(i, g2o.Isometry3d(), featurel, featurer, cam, timestamp=timestamp)
+        frame = StereoFrame(i, None, featurel, featurer, cam, timestamp=timestamp)
 
         if not sptam.is_initialized():
             sptam.initialize(frame)
