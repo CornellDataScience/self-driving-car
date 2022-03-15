@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import depthai as dai
 #  import g2o
 
 from threading import Lock, Thread
@@ -18,22 +19,70 @@ from covisibility import GraphMeasurement
 class Camera(object):
     def __init__(self, fx, fy, cx, cy, width, height, 
             frustum_near, frustum_far, baseline):
-        self.fx = fx
-        self.fy = fy
-        self.cx = cx
-        self.cy = cy
-        self.baseline = baseline
+    pipeline = dai.Pipeline()
 
-        self.intrinsic = np.array([
-            [fx, 0, cx], 
-            [0, fy, cy], 
-            [0, 0, 1]])
+    monoL = pipeline.create(dai.node.MonoCamera)
+    monoR = pipeline.create(dai.node.MonoCamera)
 
-        self.frustum_near = frustum_near
-        self.frustum_far = frustum_far
+    monoL.setBoardSocket(dai.CameraBoardSocket.LEFT)
+    monoR.setBoardSocket(dai.CameraBoardSocket.RIGHT)
 
-        self.width = width
-        self.height = height
+    xoutL = pipeline.create(dai.node.XLinkOut)
+    xoutR = pipeline.create(dai.node.XLinkOut)
+    
+    xoutL.setStreamName('left')
+    xoutR.setStreamName('right')
+
+    monoL.setResolution(dai.MonoCameraProperties.SensorResolution.THE_720_P)
+    monoR.setResolution(dai.MonoCameraProperties.SensorResolution.THE_720_P)
+
+    # monoL.setVideoSize(960, 540)
+    # monoR.setVideoSize(960, 540)
+
+    xoutL.input.setBlocking(False)
+    xoutR.input.setBlocking(False)
+
+    xoutL.input.setQueueSize(1)
+    xoutR.input.setQueueSize(1)
+
+    monoL.out.link(xoutL.input)
+    monoR.out.link(xoutR.input)
+
+    baseline = 75
+    fov = 71.86
+    width = 1280
+    focal = width/(2*math.tan(fov/2/180*math.pi))
+
+    self.device = dai.Device(pipeline)
+
+    def left(self):
+       q = device.getOutputQueue('left', 8, blocking=False) 
+       data = q.get()
+       frame = data.getFrame()
+       return frame
+
+    def right(self):
+       q = device.getOutputQueue('right', 8, blocking=False) 
+       data = q.get()
+       frame = data.getFrame()
+       return frame
+
+    self.fx = fx
+    self.fy = fy
+    self.cx = cx
+    self.cy = cy
+    self.baseline = baseline
+
+    self.intrinsic = np.array([
+        [fx, 0, cx], 
+        [0, fy, cy], 
+        [0, 0, 1]])
+
+    self.frustum_near = frustum_near
+    self.frustum_far = frustum_far
+
+    self.width = width
+    self.height = height
     # Uses g2o        
     #  def compute_right_camera_pose(self, pose):
         #  pos = pose * np.array([self.baseline, 0, 0])
