@@ -8,7 +8,9 @@ def get_features(frame):
     orb = cv2.ORB_create()
 
     # Replacement for orb.detect(frame, None) Gives many more points
-    pts = cv2.goodFeaturesToTrack(np.mean(frame, axis=2).astype(np.uint8), 3000, qualityLevel=0.01, minDistance=7)
+    pts = cv2.goodFeaturesToTrack(
+        np.mean(frame, axis=2).astype(np.uint8), 3000, qualityLevel=0.01, minDistance=7
+    )
 
     # print("pts: ", alt_pts)
 
@@ -70,19 +72,33 @@ def display_frame(frame, prev_frame):
         x2 = pt2[0]
 
         transitory_vec += x2 - x1
-        if x2 > frame.shape[1]/2:
-            stationary_right_vec += x2-x1
+        if x2 > frame.shape[1] / 2:
+            stationary_right_vec += x2 - x1
             right_count += 1
         else:
-            stationary_left_vec += x2-x1
+            stationary_left_vec += x2 - x1
             left_count += 1
 
-        if math.hypot(pt1[0]-pt2[0], pt1[1]-pt2[1]) <= 100:
-            cv2.line(frame, pt1, pt2, (int(255*(1-m.distance/32)), 0, 0), 2)
+        if math.hypot(pt1[0] - pt2[0], pt1[1] - pt2[1]) <= 100:
+            cv2.line(frame, pt1, pt2, (int(255 * (1 - m.distance / 32)), 0, 0), 2)
 
     vect = str((stationary_left_vec, stationary_right_vec))
-    adj_vect = str((round(stationary_left_vec/max(1, left_count), 2), round(stationary_right_vec/max(1, right_count), 2)))
-    phrase = "Vectors: " + vect + "Adjusted: " + adj_vect + "Count: " + str((left_count, right_count)) + "=" + str(left_count+right_count)
+    adj_vect = str(
+        (
+            round(stationary_left_vec / max(1, left_count), 2),
+            round(stationary_right_vec / max(1, right_count), 2),
+        )
+    )
+    phrase = (
+        "Vectors: "
+        + vect
+        + "Adjusted: "
+        + adj_vect
+        + "Count: "
+        + str((left_count, right_count))
+        + "="
+        + str(left_count + right_count)
+    )
 
     # TODO: Possible improvements to direction estimation
     # - Check ratio of matches between left and right
