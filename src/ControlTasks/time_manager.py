@@ -24,7 +24,6 @@ class TimeManager(ControlTaskBase):
           
            time.sleep(runtime - (current_time - start_time))
  
-       #if current_time - start_time >= runtime:
        else:
            print("ERROR! Ran for more than " + str(runtime) + " seconds")
            print('Ran for ' + str(current_time - start_time))
