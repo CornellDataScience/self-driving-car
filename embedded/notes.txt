@@ -1,0 +1,8 @@
+FOR PIO:
+- Need to have the right version of PlatformIO
+- Need to have the right venv activated
+- Make sure to use "which python" to check the version that's on
+- Need platformIO installed properly 
+  "pip install platformio"
+- pio run -e led 
+- pio run -e car
