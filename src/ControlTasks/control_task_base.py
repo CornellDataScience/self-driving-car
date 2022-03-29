@@ -21,7 +21,6 @@ class ControlTaskBase(ABC):
     @abstractmethod
     def setup(self):
         """An abstract setup function to be overriden by the child ControlTask."""
-        pass
 
     def full_default(self) -> None:
         """Common setup call that then calls the child's default."""
@@ -32,7 +31,6 @@ class ControlTaskBase(ABC):
     @abstractmethod
     def default(self) -> None:
         """An abstract function where children set default values."""
-        pass
 
     def pre_execute(self) -> None:
         """A common pre-execution function."""
@@ -59,4 +57,3 @@ class ControlTaskBase(ABC):
     @abstractmethod
     def execute(self) -> None:
         """Abstract execution function that children should override."""
-        pass
