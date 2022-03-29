@@ -36,7 +36,6 @@ Always remember to have the virtual environment `venv` activated with:
 
 ```
 . venv/bin/activate
-python -m src hootl.yaml NoSIM
 ```
 
 # Linting
