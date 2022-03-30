@@ -3,7 +3,7 @@
 
 if __name__ == '__main__':
     import cv2
-    import g2o
+    #  import g2o
 
     import os
     import sys
@@ -65,7 +65,7 @@ if __name__ == '__main__':
         featurel.extract()
         t.join()
         
-        frame = StereoFrame(i, None, featurel, featurer, cam, timestamp=timestamp)
+        frame = StereoFrame(i, g2o.Isometry3d(), featurel, featurer, cam, timestamp=timestamp)
 
         if not sptam.is_initialized():
             sptam.initialize(frame)

@@ -8,8 +8,8 @@ class Tracking(object):
     #TODO
 
 class SLAM(object):
-    def __init__(self):
-        #  self.params = params
+    def __init__(self, params):
+        self.params = params
 
         #  self.tracker = Tracking(params)
         #  self.motion_model = MotionModel()
@@ -29,6 +29,8 @@ class SLAM(object):
 
     def initialize(self, frame):
         mappoints, measurements = frame.triangulate()
+        print("Need ", self.params.init_min_points, " points to initialize")
+        print("Found ", len(mappoints), " map points")
         assert len(mappoints) >= self.params.init_min_points, (
             'Not enough points to initialize map.')
 

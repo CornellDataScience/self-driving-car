@@ -1,7 +1,8 @@
 import numpy as np
 import cv2
 import depthai as dai
-#  import g2o
+import math
+import g2o
 
 from threading import Lock, Thread
 from queue import Queue
@@ -18,72 +19,79 @@ from covisibility import GraphMeasurement
 
 class Camera(object):
     def __init__(self, fx, fy, cx, cy, width, height, 
-            frustum_near, frustum_far, baseline):
-    pipeline = dai.Pipeline()
+            frustum_near, frustum_far, baseline=75):
 
-    monoL = pipeline.create(dai.node.MonoCamera)
-    monoR = pipeline.create(dai.node.MonoCamera)
+        self.fx = fx
+        self.fy = fy
+        self.cx = cx
+        self.cy = cy
+        self.baseline = baseline
 
-    monoL.setBoardSocket(dai.CameraBoardSocket.LEFT)
-    monoR.setBoardSocket(dai.CameraBoardSocket.RIGHT)
+        self.intrinsic = np.array([
+            [fx, 0, cx], 
+            [0, fy, cy], 
+            [0, 0, 1]])
 
-    xoutL = pipeline.create(dai.node.XLinkOut)
-    xoutR = pipeline.create(dai.node.XLinkOut)
-    
-    xoutL.setStreamName('left')
-    xoutR.setStreamName('right')
+        self.frustum_near = frustum_near
+        self.frustum_far = frustum_far
 
-    monoL.setResolution(dai.MonoCameraProperties.SensorResolution.THE_720_P)
-    monoR.setResolution(dai.MonoCameraProperties.SensorResolution.THE_720_P)
+        self.width = width
+        self.height = height
 
-    # monoL.setVideoSize(960, 540)
-    # monoR.setVideoSize(960, 540)
 
-    xoutL.input.setBlocking(False)
-    xoutR.input.setBlocking(False)
+        pipeline = dai.Pipeline()
 
-    xoutL.input.setQueueSize(1)
-    xoutR.input.setQueueSize(1)
+        monoL = pipeline.create(dai.node.MonoCamera)
+        monoR = pipeline.create(dai.node.MonoCamera)
 
-    monoL.out.link(xoutL.input)
-    monoR.out.link(xoutR.input)
+        monoL.setBoardSocket(dai.CameraBoardSocket.LEFT)
+        monoR.setBoardSocket(dai.CameraBoardSocket.RIGHT)
 
-    baseline = 75
-    fov = 71.86
-    width = 1280
-    focal = width/(2*math.tan(fov/2/180*math.pi))
+        xoutL = pipeline.create(dai.node.XLinkOut)
+        xoutR = pipeline.create(dai.node.XLinkOut)
+        
+        xoutL.setStreamName('left')
+        xoutR.setStreamName('right')
 
-    self.device = dai.Device(pipeline)
+        monoL.setResolution(dai.MonoCameraProperties.SensorResolution.THE_720_P)
+        monoR.setResolution(dai.MonoCameraProperties.SensorResolution.THE_720_P)
+
+        # monoL.setVideoSize(960, 540)
+        # monoR.setVideoSize(960, 540)
+
+        xoutL.input.setBlocking(False)
+        xoutR.input.setBlocking(False)
+
+        xoutL.input.setQueueSize(1)
+        xoutR.input.setQueueSize(1)
+
+        monoL.out.link(xoutL.input)
+        monoR.out.link(xoutR.input)
+
+        baseline = 75
+        fov = 71.86
+        width = 1280
+        focal = width/(2*math.tan(fov/2/180*math.pi))
+
+        self.device = dai.Device(pipeline)
+
+        #  cv2.imshow("left", self.left())
+        #  cv2.imshow("right", self.right())
 
     def left(self):
-       q = device.getOutputQueue('left', 8, blocking=False) 
+       #  print("Called left...")
+       q = self.device.getOutputQueue('left', 8, blocking=False) 
        data = q.get()
        frame = data.getFrame()
        return frame
 
     def right(self):
-       q = device.getOutputQueue('right', 8, blocking=False) 
+       q = self.device.getOutputQueue('right', 8, blocking=False) 
        data = q.get()
        frame = data.getFrame()
        return frame
 
-    self.fx = fx
-    self.fy = fy
-    self.cx = cx
-    self.cy = cy
-    self.baseline = baseline
-
-    self.intrinsic = np.array([
-        [fx, 0, cx], 
-        [0, fy, cy], 
-        [0, 0, 1]])
-
-    self.frustum_near = frustum_near
-    self.frustum_far = frustum_far
-
-    self.width = width
-    self.height = height
-    # Uses g2o        
+        # Uses g2o        
     #  def compute_right_camera_pose(self, pose):
         #  pos = pose * np.array([self.baseline, 0, 0])
         #  return g2o.Isometry3d(pose.orientation(), pos)
@@ -105,8 +113,7 @@ class Frame(object):
         self.pose_covariance = pose_covariance
 
         self.transform_matrix = pose.inverse().matrix()[:3] # shape: (3, 4)
-        self.projection_matrix = (
-            self.cam.intrinsic.dot(self.transform_matrix))  # from world frame to image
+        self.projection_matrix =(self.cam.intrinsic.dot(self.transform_matrix))  # from world frame to image
 
     # batch version
     def can_view(self, points, ground=False, margin=20):    # Frustum Culling
@@ -162,6 +169,7 @@ class Frame(object):
         Returns:
             Projected pixel coordinates, and respective depth.
         '''
+        print(len(points))
         projection = self.cam.intrinsic.dot(points / points[-1:])
         return projection[:2], points[-1]
 
@@ -198,10 +206,7 @@ class StereoFrame(Frame):
 
         super().__init__(idx, pose, feature, cam, timestamp, pose_covariance)
         self.left  = Frame(idx, pose, feature, cam, timestamp, pose_covariance)
-        self.right = Frame(idx, 
-            cam.compute_right_camera_pose(pose), 
-            right_feature, right_cam or cam, 
-            timestamp, pose_covariance)
+        self.right = Frame(idx, pose, right_feature, right_cam or cam, timestamp, pose_covariance)
 
     def find_matches(self, source, points, descriptors):
         
@@ -294,10 +299,14 @@ class StereoFrame(Frame):
         return mappoints, measurements
 
     def triangulate_points(self, kps_left, desps_left, kps_right, desps_right):
+        print("kps_left: ", kps_left)
+        print("desps_left: ", desps_left)
+        print("kps_right: ", kps_right)
+        print("desps_right: ", desps_right)
         matches = self.feature.row_match(
             kps_left, desps_left, kps_right, desps_right)
         assert len(matches) > 0
-
+        print("Row match completed")
         px_left = np.array([kps_left[m.queryIdx].pt for m in matches])
         px_right = np.array([kps_right[m.trainIdx].pt for m in matches])
 
@@ -308,11 +317,13 @@ class StereoFrame(Frame):
             px_right.transpose() 
             ).transpose()  # shape: (N, 4)
 
-        points = points[:, :3] / points[:, 3:]
+        points = points[:, :3] / points[:, 3:] # Not sure what this is doing
+        print("# points: ", len(points))
 
         can_view = np.logical_and(
             self.left.can_view(points), 
             self.right.can_view(points))
+
 
         mappoints = []
         matchs = []
@@ -323,12 +334,14 @@ class StereoFrame(Frame):
             normal = normal / np.linalg.norm(normal)
 
             color = self.left.get_color(px_left[i])
-
+    
+            
             mappoint = MapPoint(
                 point, normal, desps_left[matches[i].queryIdx], color)
             mappoints.append(mappoint)
             matchs.append((matches[i].queryIdx, matches[i].trainIdx))
 
+        print("# mappoints: ", len(mappoints))
         return mappoints, matchs
 
     def update_pose(self, pose):
@@ -367,7 +380,7 @@ class StereoFrame(Frame):
 
 
 
-class KeyFrame(GraphKeyFrame, StereoFrame):
+class KeyFrame(StereoFrame):
     _id = 0
     _id_lock = Lock()
 
@@ -415,8 +428,8 @@ class MapPoint(GraphMapPoint):
     _id = 0
     _id_lock = Lock()
 
-    def __init__(self, position, normal, descriptor, 
-            color=np.zeros(3), 
+    def __init__(self, position, normal, descriptor,
+            color=np.zeros(3),
             covariance=np.identity(3) * 1e-4):
         super().__init__()
 
@@ -429,7 +442,7 @@ class MapPoint(GraphMapPoint):
         self.descriptor = descriptor
         self.covariance = covariance
         self.color = color
-        # self.owner = None
+        self.owner = None
 
         self.count = defaultdict(int)
 
@@ -464,11 +477,11 @@ class MapPoint(GraphMapPoint):
     def increase_measurement_count(self):
         with self._lock:
             self.count['meas'] += 1
-
-    
-
+#
+#
+#
 class Measurement(GraphMeasurement):
-    
+
     Source = Enum('Measurement.Source', ['TRIANGULATION', 'TRACKING', 'REFIND'])
     Type = Enum('Measurement.Type', ['STEREO', 'LEFT', 'RIGHT'])
 

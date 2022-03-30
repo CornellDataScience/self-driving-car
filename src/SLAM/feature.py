@@ -30,7 +30,9 @@ class ImageFeature(object):
         self._lock = Lock()
 
     def extract(self):
-        self.keypoints = self.detector.detect(self.image)
+        #  self.keypoints = self.detector.detect(self.image)
+        pts = cv2.goodFeaturesToTrack(self.image, 1000, qualityLevel=0.01, minDistance=7)
+        self.keypoints = [cv2.KeyPoint(x=f[0][0], y=f[0][1], size=20) for f in pts] 
         self.keypoints, self.descriptors = self.extractor.compute(
             self.image, self.keypoints)
 
@@ -118,19 +120,20 @@ class ImageFeature(object):
 # TODO: only match points in neighboring rows
 def row_match(matcher, kps1, desps1, kps2, desps2,
         matching_distance=40, 
-        max_row_distance=2.5, 
-        max_disparity=100):
+        max_row_distance=25, 
+        max_disparity=1000):
 
     matches = matcher.match(np.array(desps1), np.array(desps2))
-    good = []
-    for m in matches:
-        pt1 = kps1[m.queryIdx].pt
-        pt2 = kps2[m.trainIdx].pt
-        if (m.distance < matching_distance and 
-            abs(pt1[1] - pt2[1]) < max_row_distance and 
-            abs(pt1[0] - pt2[0]) < max_disparity):   # epipolar constraint
-            good.append(m)
-    return good
+    print("# Matches: ", len(matches))
+    #  good = []
+    #  for m in matches:
+        #  pt1 = kps1[m.queryIdx].pt
+        #  pt2 = kps2[m.trainIdx].pt
+        #  if (m.distance < matching_distance and
+            #  abs(pt1[1] - pt2[1]) < max_row_distance and
+            #  abs(pt1[0] - pt2[0]) < max_disparity):   # epipolar constraint
+            #  good.append(m)
+    return matches
     
 
 
