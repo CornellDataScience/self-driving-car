@@ -9,6 +9,8 @@ from ..ControlTasks import (
     DisplayFrame,
     DepthCamera,
     StaticFrame,
+    WritePointCloud,
+    RenderPointCloud
 )
 from ..sfr import StateFieldRegistry
 import time
