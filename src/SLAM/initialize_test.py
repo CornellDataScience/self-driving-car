@@ -21,19 +21,26 @@ cam = Camera(
     1280, 370, 0.1, 50.0)
 
 i = 0
-#  while True:
-img_l = cam.left()
-img_r = cam.right()
-cv2.imshow("left", img_l)
-cv2.imshow("right", img_r)
-cv2.waitKey(0)
 
-img_l = cam.left()
-img_r = cam.right()
+
+print("using get_pair()")
+#  img_l = cam.left()
+#  img_r = cam.right()
+img_l, img_r = cam.get_pair()
+cv2.imshow("pair left", img_l)
+cv2.imshow("pair right", img_r)
+#  cv2.waitKey(1)
+
+#  print("using left() and right()")
+#  img_l = cam.left()
+#  img_r = cam.right()
 #  print("img_l: ", img_l)
-cv2.imshow("left", img_l)
-cv2.imshow("right", img_r)
-cv2.waitKey(0)
+#  cv2.imshow("left", img_l)
+#  cv2.imshow("right", img_r)
+#  cv2.waitKey(1)
+
+#  print("Entering loop.")
+#  cam.loop_display()
 
 featurel = ImageFeature(img_l, params) # process_frame.get_features(Cam.left)
 featurer = ImageFeature(img_r, params) # process_frame.get_features(Cam.right)

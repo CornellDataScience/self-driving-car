@@ -41,32 +41,56 @@ class Camera(object):
 
         pipeline = dai.Pipeline()
 
-        monoL = pipeline.create(dai.node.MonoCamera)
-        monoR = pipeline.create(dai.node.MonoCamera)
+        camLeft = pipeline.create(dai.node.MonoCamera)
+        camRight = pipeline.create(dai.node.MonoCamera)
+        stereo = pipeline.create(dai.node.StereoDepth)
+        xoutLeft = pipeline.create(dai.node.XLinkOut)
+        xoutRight = pipeline.create(dai.node.XLinkOut)
+        xoutDisparity = pipeline.create(dai.node.XLinkOut)
+        xoutDepth = pipeline.create(dai.node.XLinkOut)
+        xoutRectifLeft = pipeline.create(dai.node.XLinkOut)
+        xoutRectifRight = pipeline.create(dai.node.XLinkOut)
 
-        monoL.setBoardSocket(dai.CameraBoardSocket.LEFT)
-        monoR.setBoardSocket(dai.CameraBoardSocket.RIGHT)
+        camLeft.setBoardSocket(dai.CameraBoardSocket.LEFT)
+        camRight.setBoardSocket(dai.CameraBoardSocket.RIGHT)
 
-        xoutL = pipeline.create(dai.node.XLinkOut)
-        xoutR = pipeline.create(dai.node.XLinkOut)
-        
-        xoutL.setStreamName('left')
-        xoutR.setStreamName('right')
+        camLeft.setResolution(dai.MonoCameraProperties.SensorResolution.THE_800_P)
+        camRight.setResolution(dai.MonoCameraProperties.SensorResolution.THE_800_P)
 
-        monoL.setResolution(dai.MonoCameraProperties.SensorResolution.THE_720_P)
-        monoR.setResolution(dai.MonoCameraProperties.SensorResolution.THE_720_P)
 
-        # monoL.setVideoSize(960, 540)
-        # monoR.setVideoSize(960, 540)
+        stereo.setDefaultProfilePreset(dai.node.StereoDepth.PresetMode.HIGH_DENSITY)
+        stereo.initialConfig.setMedianFilter(dai.StereoDepthProperties.MedianFilter.KERNEL_7x7)  # KERNEL_7x7 default
+        stereo.setRectifyEdgeFillColor(0)  # Black, to better see the cutout
+        stereo.setLeftRightCheck(False)
+        stereo.setExtendedDisparity(False)
+        stereo.setSubpixel(False)
 
-        xoutL.input.setBlocking(False)
-        xoutR.input.setBlocking(False)
+        xoutLeft.setStreamName("left")
+        xoutRight.setStreamName("right")
+        xoutDisparity.setStreamName("disparity")
+        xoutDepth.setStreamName("depth")
+        xoutRectifLeft.setStreamName("rectifiedLeft")
+        xoutRectifRight.setStreamName("rectifiedRight")
 
-        xoutL.input.setQueueSize(1)
-        xoutR.input.setQueueSize(1)
+        camLeft.out.link(stereo.left)
+        camRight.out.link(stereo.right)
+        stereo.syncedLeft.link(xoutLeft.input)
+        stereo.syncedRight.link(xoutRight.input)
+        stereo.disparity.link(xoutDisparity.input)
+        if True:
+            stereo.depth.link(xoutDepth.input)
+        if True:
+            stereo.rectifiedLeft.link(xoutRectifLeft.input)
+            stereo.rectifiedRight.link(xoutRectifRight.input)
 
-        monoL.out.link(xoutL.input)
-        monoR.out.link(xoutR.input)
+        streams = ["left", "right"]
+        if True:
+            streams.extend(["rectifiedLeft", "rectifiedRight"])
+        streams.append("disparity")
+        if True:
+            streams.append("depth")
+
+
 
         baseline = 75
         fov = 71.86
@@ -82,14 +106,56 @@ class Camera(object):
        #  print("Called left...")
        q = self.device.getOutputQueue('left', 8, blocking=False) 
        data = q.get()
-       frame = data.getFrame()
+       frame = data.getCvFrame()
        return frame
 
     def right(self):
        q = self.device.getOutputQueue('right', 8, blocking=False) 
        data = q.get()
-       frame = data.getFrame()
+       frame = data.getCvFrame()
        return frame
+
+    def get_pair(self):
+        #  leftq = self.device.getOutputQueue("left", 8, blocking=False)
+        #  rightq = self.device.getOutputQueue("right", 8, blocking=False)
+        #  lframe = leftq.get().getCvFrame()
+        #  rframe = rightq.get().getCvFrame()
+        #  cv2.imshow("pair left", lframe)
+        #  cv2.imshow("pair right", rframe)
+
+       streams = ["left", "right", "depth"]
+       qList = [self.device.getOutputQueue(stream, 8, blocking=False) for stream in streams]
+       for _ in range(5):
+           for q in qList:
+               name = q.getName()
+               frame = q.get().getCvFrame()
+               if name == "depth":
+                   frame = frame.astype(np.uint16)
+               elif name == "disparity":
+                   frame = getDisparityFrame(frame)
+
+               cv2.imshow(name, frame)
+           if cv2.waitKey(1) == ord("q"):
+               break
+       lframe = self.device.getOutputQueue("left", 8, blocking=False).get().getCvFrame()
+       rframe = self.device.getOutputQueue("right", 8, blocking=False).get().getCvFrame()
+       return lframe, rframe
+
+    def loop_display(self):
+       streams = ["left", "right", "depth"]
+       qList = [self.device.getOutputQueue(stream, 8, blocking=False) for stream in streams]
+       while True:
+            for q in qList:
+                name = q.getName()
+                frame = q.get().getCvFrame()
+                if name == "depth":
+                    frame = frame.astype(np.uint16)
+                elif name == "disparity":
+                    frame = getDisparityFrame(frame)
+
+                cv2.imshow(name, frame)
+            if cv2.waitKey(1) == ord("q"):
+                break
 
         # Uses g2o        
     #  def compute_right_camera_pose(self, pose):
