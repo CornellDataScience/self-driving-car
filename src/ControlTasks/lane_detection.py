@@ -1,17 +1,36 @@
 from .control_task_base import ControlTaskBase
+from ...lane import get_lines
+from ...lane import line
+import math
 
 
-def run_model(frame):
-    pass
+def calc_angle(l, r):
+    arc_length = 20 # Find real length
+    steering_wheel_angle = 0 # FIND THIS
+    steering_ratio = 20 # Find real length
+    wheel_base = 20 # Find real length
 
+    #guide https://www.physicsforums.com/threads/steering-wheel-angle-radius-of-curvature.59881/
 
-def calc_angle(processed_frame):
-    pass
+    #HANDLING DEVIATION = ???, maybe left then straight, would need to time
+
+    road_info, curvature, deviation = line.get_measurements(l, r)
+
+    if road_info == 'Straight':
+        return 0
+    elif road_info == 'curving to Left':
+        steering_wheel_angle = steering_ratio*math.asin(wheel_base/curvature)
+    elif road_info == 'curving to Right':
+        steering_wheel_angle = steering_ratio*math.asin(wheel_base/curvature) 
+    
+    return steering_wheel_angle
+
 
 
 class LaneDetection(ControlTaskBase):
     def setup(self):
-        pass
+        self.left_line = None
+        self.right_line = None
 
     def default(self):
         self.sfr.set("angle", 0.0)
@@ -19,4 +38,5 @@ class LaneDetection(ControlTaskBase):
     # Take in frame and output direction to move and store in sfr?
     def execute(self):
         curr_frame = self.sfr.get("curr_frame")
-        self.sfr.set("angle", calc_angle(run_model(curr_frame)))
+        self.left_line, self.right_line = get_lines(curr_frame)
+        self.sfr.set("angle", calc_angle(self.left_line, self.right_line))
