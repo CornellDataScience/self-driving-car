@@ -2,6 +2,7 @@ from .control_task_base import ControlTaskBase
 
 
 
+
 class DepthCamera(ControlTaskBase):
     def setup(self):
         import depthai as dai  # Moving to inside setup to not block things that don't have depthai installed.

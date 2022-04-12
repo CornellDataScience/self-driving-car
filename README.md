@@ -12,6 +12,19 @@ Please take a look at our issue ticket board to see what we're currently working
 ## Organization and Workflow
 We use a mixed HOOTL, HITL, and Flight-like testing/iteration strategy similar to SpaceX.
 
+## Building and running docker
+1. Download docker desktop: https://www.docker.com/products/docker-desktop
+2. Build docker image
+  - Run: "docker build --tag self-driving-car ."
+3. Running the docker image
+  - When QT works runDocker.sh script will setup enviorment/ permissions and run docker image
+    - Run: "sh runDocker.sh"
+  - For now comment out any display_frame refrences in main control loop
+    - Then run: "sudo docker run self-driving-car python3 -m src config_file_name test_case_name"
+    - For example: "sudo docker run self-driving-car python3 -m src hootl.yaml NoSIM"
+
+*To edit the docker image, edit "dockerfile" 
+*To edit the process of changing the enviorment and running the image, edit "runDocker.sh"
 
 ## Installation
 
@@ -23,15 +36,14 @@ Always remember to have the virtual environment `venv` activated with:
 
 ```
 . venv/bin/activate
-python -m src hootl.yaml NoSIM
 ```
 
 # Linting
 The linting will run automatically on every push and pull request but to check things locally uou can run:
 - To run pylint, our main linter run:
+
 ```pylint src --fail-under=8```
 - A pylint score under 8 will cause you to fail, fix output as shown on github or by running the command locally
-
 
 * To change our linting requirements edit config.pylintrc
 
