@@ -3,6 +3,7 @@ from ...lane import get_lines
 from ...lane import line
 import math
 
+# https://github.com/maunesh/advanced-lane-detection-for-self-driving-cars
 
 def calc_angle(l, r):
     arc_length = 20 # Find real length
