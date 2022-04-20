@@ -1,12 +1,12 @@
 #include <Arduino.h>
-//ß#include <Servo.h>
+#include <Servo.h>
 #include <Math.h>
 
-#define DIR_PIN 2
-#define STEP_PIN 3
+#define DIR_PIN 35
+#define STEP_PIN 36
 
-const int drive_to_stepper = 10;
-const int max_step_size = 1000;
+const int drive_to_stepper = 5;
+const int max_step_size = 10;
 
 int current = 0; // the current stepper motor angle
 
@@ -22,22 +22,23 @@ void turn_motor(int num_steps)
         digitalWrite(DIR_PIN, HIGH);
     else
         digitalWrite(DIR_PIN, LOW);
-    for (int i = 0; i < abs(num_steps); i++)
+    for (int i = 0; i < num_steps; i++)
     {
         digitalWrite(STEP_PIN, HIGH);
-        delayMicroseconds(100);
+        delayMicroseconds(500);
         digitalWrite(STEP_PIN, LOW);
-        delayMicroseconds(100);
+        delayMicroseconds(500);
     }
     current += num_steps;
 }
 
 void execute()
 {
-    if (Serial.available() > 0)
+    if (true) // Serial.available > 0
     {
         delay(10);
-        int target = Serial.readStringUntil('\n').toInt(); // the target driving wheel angle
+        // int target = Serial.readStringUntil('\n').toInt(); // the target driving wheel angle
+        int target = 1000;
         int differential = drive_to_stepper_angle(target) - current;
         int to_step = 0;
 
@@ -66,5 +67,4 @@ void loop()
 {
     // put your main code here, to run repeatedly:
     execute();
-    // turn_motor(-1000);
 }

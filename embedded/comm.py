@@ -1,7 +1,7 @@
 import serial
 import time
 
-comm = serial.Serial(port='/dev/tty.usbmodem33274401',
+comm = serial.Serial(port='/dev/tty.usbmodem142101',
                      baudrate=115200, timeout=10)
 
 '''
@@ -44,11 +44,17 @@ def write_read(x):
     data = comm.readline()
     return data
 
+def write(x):
+    comm.write(x.encode('UTF-8'))
+
+
+temp = 1000
+
 
 while True:
-    for i in range(10, 60):
-        value = write_read(str(i))
-        print(value)
+    write(str(temp))
+    time.sleep(1)
+    temp *= -1
 
 # while True:
     # comm.write(bytes(128))
