@@ -37,7 +37,7 @@ void execute()
     if (Serial.available() > 0)
     {
         delay(10);
-        int target = Serial.readStringUntil('\n').toInt(); // the target driving wheel angle
+        int target = Serial.readString().toInt(); // the target driving wheel angle
         int differential = drive_to_stepper_angle(target) - current;
         int to_step = 0;
 
@@ -56,6 +56,7 @@ void execute()
 
 void setup()
 {
+    Serial.setTimeout(10);
     pinMode(STEP_PIN, OUTPUT);
     pinMode(DIR_PIN, OUTPUT);
     digitalWrite(STEP_PIN, LOW);
