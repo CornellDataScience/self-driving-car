@@ -9,6 +9,7 @@ from ..ControlTasks import (
     DisplayFrame,
     DepthCamera,
     StaticFrame,
+    LaneDetection,
 )
 from ..sfr import StateFieldRegistry
 import time
@@ -39,6 +40,7 @@ class MainControlLoop(ControlTaskBase):
         self.mission_manager = MissionManager("mission_manager", self.config, self.sfr)
         self.process_frame = ProcessFrame("process_frame", self.config, self.sfr)
         self.display_frame = DisplayFrame("display_frame", self.config, self.sfr)
+        self.lane_detection = LaneDetection("lane_detection", self.config, self.sfr)
 
         # All ControlTasks must be added here to be setup and run.
         self.ct_list: List[ControlTaskBase] = [

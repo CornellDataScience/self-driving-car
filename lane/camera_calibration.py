@@ -4,7 +4,7 @@ import glob
 import matplotlib.image as mpimg
 
 # Reading all images in a list using glob
-image_files = glob.glob('camera_cal/calibration*.jpg')
+image_files = glob.glob("camera_cal/calibration*.jpg")
 
 """
 Implementation Notes:
@@ -25,6 +25,7 @@ Object Points: The 3D coordinates of real undistorted chess board corners
 objpoints = []  # 3D points in real world space
 imgpoints = []  # 2D points in image plane
 
+
 def calib():
     """
     #--------------------
@@ -35,13 +36,16 @@ def calib():
 
     # Prepare object points
     # This object points will be the same for all calibration images
+    image_files = glob.glob("camera_cal/calibration*.jpg")
+
     objp = np.zeros((6 * 9, 3), np.float32)
     objp[:, :2] = np.mgrid[0:9, 0:6].T.reshape(-1, 2)  # x,y coordinates
 
     for curr_file in image_files:
+        print("ii")
 
         img = mpimg.imread(curr_file)
-        
+
         # Convert to grayscale
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -55,14 +59,17 @@ def calib():
         else:
             continue
 
-    ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1], None, None)
+    ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(
+        objpoints, imgpoints, gray.shape[::-1], None, None
+    )
 
     return mtx, dist
 
+
 def undistort(img, mtx, dist):
-    """ 
+    """
     #--------------------
-    # undistort image 
+    # undistort image
     #
     """
     return cv2.undistort(img, mtx, dist, None, mtx)

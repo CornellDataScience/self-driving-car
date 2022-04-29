@@ -1,31 +1,31 @@
 from .control_task_base import ControlTaskBase
-from ...lane import get_lines
-from ...lane import line
+from lane import get_lines
+from lane import line
 import math
 
 # https://github.com/maunesh/advanced-lane-detection-for-self-driving-cars
 
+
 def calc_angle(l, r):
-    arc_length = 20 # Find real length
-    steering_wheel_angle = 0 # FIND THIS
-    steering_ratio = 20 # Find real length
-    wheel_base = 20 # Find real length
+    arc_length = 20  # Find real length
+    steering_wheel_angle = 0  # FIND THIS
+    steering_ratio = 20  # Find real length
+    wheel_base = 20  # Find real length
 
-    #guide https://www.physicsforums.com/threads/steering-wheel-angle-radius-of-curvature.59881/
+    # guide https://www.physicsforums.com/threads/steering-wheel-angle-radius-of-curvature.59881/
 
-    #HANDLING DEVIATION = ???, maybe left then straight, would need to time
+    # HANDLING DEVIATION = ???, maybe left then straight, would need to time
 
     road_info, curvature, deviation = line.get_measurements(l, r)
 
-    if road_info == 'Straight':
+    if road_info == "Straight":
         return 0
-    elif road_info == 'curving to Left':
-        steering_wheel_angle = steering_ratio*math.asin(wheel_base/curvature)
-    elif road_info == 'curving to Right':
-        steering_wheel_angle = steering_ratio*math.asin(wheel_base/curvature) 
-    
-    return steering_wheel_angle
+    elif road_info == "curving to Left":
+        steering_wheel_angle = steering_ratio * math.asin(wheel_base / curvature)
+    elif road_info == "curving to Right":
+        steering_wheel_angle = steering_ratio * math.asin(wheel_base / curvature)
 
+    return steering_wheel_angle
 
 
 class LaneDetection(ControlTaskBase):
@@ -38,6 +38,8 @@ class LaneDetection(ControlTaskBase):
 
     # Take in frame and output direction to move and store in sfr?
     def execute(self):
+        print("executing Lane")
         curr_frame = self.sfr.get("curr_frame")
         self.left_line, self.right_line = get_lines(curr_frame)
         self.sfr.set("angle", calc_angle(self.left_line, self.right_line))
+        print("finishing Lane")
