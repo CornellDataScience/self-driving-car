@@ -1,36 +1,8 @@
 import serial
 import time
 
-comm = serial.Serial(port='/dev/tty.usbmodem141101',
+comm = serial.Serial(port='/dev/tty.usbmodem142101',
                      baudrate=115200, timeout=10)
-
-'''
-def led_on_off():
-    user_input = input("\n Type on / off / quit : ")
-    if user_input == "on":
-        print("LED is on...")
-        time.sleep(0.1)
-        teensy.write(b'H')
-        led_on_off()
-    elif user_input == "off":
-        print("LED is off...")
-        time.sleep(0.1)
-        teensy.write(b'L')
-        led_on_off()
-    elif user_input == "quit" or user_input == "q":
-        print("Program Exiting")
-        time.sleep(0.1)
-        teensy.write(b'L')
-        teensy.close()
-    else:
-        print("Invalid input. Type on / off / quit.")
-        led_on_off()
-
-
-time.sleep(2)  # wait for the serial connection to initialize
-
-led_on_off()
-'''
 
 
 def write_read(x):
@@ -49,20 +21,12 @@ def write(x):
     print('Command sent!')
 
 
-temp = 10000
+temp = 360
 
+time.sleep(0.5)
 
 while True:
     write(str(temp))
-    time.sleep(5)
-    temp *= -1
+    time.sleep(1)
 
-# while True:
-    # comm.write(bytes(128))
-    # time.sleep(0.5)
-    #val = comm.read()
-    '''
-    comm.write(bytes(1))
-    val = int.from_bytes(comm.readlines(), 'little')
-    print(val)
-    '''
+#Problem: Trade off between delay and length of turn? Can go 360 degrees with no problem using a delay of 1 second, but going longer is questionable

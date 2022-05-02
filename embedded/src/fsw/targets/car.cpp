@@ -1,12 +1,11 @@
 #include <Arduino.h>
-//ß#include <Servo.h>
 #include <Math.h>
 
 #define DIR_PIN 2
 #define STEP_PIN 3
 
-const int drive_to_stepper = 10;
-const int max_step_size = 1000;
+const int drive_to_stepper = 9;
+const int max_step_size = 10000;
 
 int current = 0; // the current stepper motor angle
 
