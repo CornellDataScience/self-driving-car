@@ -50,6 +50,7 @@ class MainControlLoop(ControlTaskBase):
             self.mission_manager,
             self.process_frame,
             self.display_frame,
+            self.lane_detection
         ]
 
         # Lists ready to re-order if required

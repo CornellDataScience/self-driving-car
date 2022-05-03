@@ -36,13 +36,13 @@ def calib():
 
     # Prepare object points
     # This object points will be the same for all calibration images
-    image_files = glob.glob("camera_cal/calibration*.jpg")
+    image_files = glob.glob("lane/camera_cal/calibration*.jpg")
+    print(image_files)
 
     objp = np.zeros((6 * 9, 3), np.float32)
     objp[:, :2] = np.mgrid[0:9, 0:6].T.reshape(-1, 2)  # x,y coordinates
 
     for curr_file in image_files:
-        print("ii")
 
         img = mpimg.imread(curr_file)
 

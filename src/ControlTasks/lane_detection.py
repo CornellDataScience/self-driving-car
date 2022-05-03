@@ -40,6 +40,7 @@ class LaneDetection(ControlTaskBase):
     def execute(self):
         print("executing Lane")
         curr_frame = self.sfr.get("curr_frame")
-        self.left_line, self.right_line = get_lines(curr_frame)
+        self.left_line, self.right_line = get_lines.pipeline(curr_frame)
         self.sfr.set("angle", calc_angle(self.left_line, self.right_line))
-        print("finishing Lane")
+        print("DETECTING LANES")
+        print(self.sfr.get("angle"))
