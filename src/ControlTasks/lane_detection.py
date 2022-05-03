@@ -1,6 +1,10 @@
 from .control_task_base import ControlTaskBase
 from lane import get_lines
 from lane import line
+
+import glob
+import matplotlib.image as mpimg
+
 import math
 
 # https://github.com/maunesh/advanced-lane-detection-for-self-driving-cars
@@ -21,7 +25,7 @@ def calc_angle(l, r):
     if road_info == "Straight":
         return 0
     elif road_info == "curving to Left":
-        steering_wheel_angle = steering_ratio * math.asin(wheel_base / curvature)
+        steering_wheel_angle = -1 * steering_ratio * math.asin(wheel_base / curvature)
     elif road_info == "curving to Right":
         steering_wheel_angle = steering_ratio * math.asin(wheel_base / curvature)
 
@@ -38,9 +42,10 @@ class LaneDetection(ControlTaskBase):
 
     # Take in frame and output direction to move and store in sfr?
     def execute(self):
-        print("executing Lane")
         curr_frame = self.sfr.get("curr_frame")
+        curr_frame = mpimg.imread(
+            "lane/s-curve-road-skyline-drive-tucked-blue-ridge-mountains-shenandoah-national-park-virgina-31148867.jpeg"
+        )
         self.left_line, self.right_line = get_lines.pipeline(curr_frame)
         self.sfr.set("angle", calc_angle(self.left_line, self.right_line))
-        print("DETECTING LANES")
-        print("angle to turn:" + self.sfr.get("angle"))
+        print("Angle to turn: " + str(self.sfr.get("angle")))
