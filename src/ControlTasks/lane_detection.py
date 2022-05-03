@@ -43,4 +43,4 @@ class LaneDetection(ControlTaskBase):
         self.left_line, self.right_line = get_lines.pipeline(curr_frame)
         self.sfr.set("angle", calc_angle(self.left_line, self.right_line))
         print("DETECTING LANES")
-        print(self.sfr.get("angle"))
+        print("angle to turn:" + self.sfr.get("angle"))
