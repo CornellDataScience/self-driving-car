@@ -43,9 +43,7 @@ class LaneDetection(ControlTaskBase):
     # Take in frame and output direction to move and store in sfr?
     def execute(self):
         curr_frame = self.sfr.get("curr_frame")
-        curr_frame = mpimg.imread(
-            "lane/s-curve-road-skyline-drive-tucked-blue-ridge-mountains-shenandoah-national-park-virgina-31148867.jpeg"
-        )
+        curr_frame = mpimg.imread("lane/cornell_road.jpeg")
         self.left_line, self.right_line = get_lines.pipeline(curr_frame)
         self.sfr.set("angle", calc_angle(self.left_line, self.right_line))
         print("Angle to turn: " + str(self.sfr.get("angle")))
