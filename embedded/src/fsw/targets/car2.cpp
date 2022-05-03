@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include <Math.h>
 
-#define DIR_PIN 4
-#define STEP_PIN 5
+#define DIR_PIN 2
+#define STEP_PIN 3
 
 const int drive_to_stepper = 9;
 const int max_step_size = 10000;
@@ -50,9 +50,6 @@ void execute()
             to_step = max(differential, -1 * max_step_size);
             turn_motor(to_step);
         }
-        Serial.println("Finished stepping");
-
-        Serial.println("Currrent: " + String(current));
     }
 }
 
@@ -63,7 +60,7 @@ void setup()
     pinMode(DIR_PIN, OUTPUT);
     digitalWrite(STEP_PIN, LOW);
     Serial.begin(115200);
-    Serial.println("SETUP CALL");
+    Serial.print(String(current));
 }
 
 void loop()
