@@ -9,7 +9,7 @@ from ..ControlTasks import (
     DisplayFrame,
     DepthCamera,
     StaticFrame,
-    MotorController,
+    #MotorController,
     LaneDetection,
 )
 from ..sfr import StateFieldRegistry
@@ -43,9 +43,9 @@ class MainControlLoop(ControlTaskBase):
         self.process_frame = ProcessFrame("process_frame", self.config, self.sfr)
         self.display_frame = DisplayFrame("display_frame", self.config, self.sfr)
         self.lane_detection = LaneDetection("lane_detection", self.config, self.sfr)
-        self.motor_controller = MotorController(
-            "motor_controller", self.config, self.sfr
-        )
+        #self.motor_controller = MotorController(
+            #"motor_controller", self.config, self.sfr
+        #)
 
         # All ControlTasks must be added here to be setup and run.
         self.ct_list: List[ControlTaskBase] = [
@@ -55,7 +55,7 @@ class MainControlLoop(ControlTaskBase):
             self.mission_manager,
             self.process_frame,
             self.display_frame,
-            self.motor_controller,
+            #self.motor_controller,
             self.lane_detection,
         ]
 
