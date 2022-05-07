@@ -1,13 +1,11 @@
 #include <Arduino.h>
 #include <Math.h>
 
-#define DIR_PIN_1 2
-#define STEP_PIN_1 3
-#define DIR_PIN_2 4
-#define STEP_PIN_2 5
+#define DIR_PIN 4
+#define STEP_PIN 5
 
 const int drive_to_stepper = 9;
-const int max_step_size = 600;
+const int max_step_size = 10000;
 
 int current = 0; // the current stepper motor angle
 
@@ -20,22 +18,14 @@ int drive_to_stepper_angle(int drive)
 void turn_motor(int num_steps)
 {
     if (num_steps > 0)
-    {
-        digitalWrite(DIR_PIN_1, HIGH);
-        digitalWrite(DIR_PIN_2, HIGH);
-    }
+        digitalWrite(DIR_PIN, HIGH);
     else
-    {
-        digitalWrite(DIR_PIN_1, LOW);
-        digitalWrite(DIR_PIN_2, LOW);
-    }
+        digitalWrite(DIR_PIN, LOW);
     for (int i = 0; i < abs(num_steps); i++)
     {
-        digitalWrite(STEP_PIN_1, HIGH);
-        digitalWrite(STEP_PIN_2, HIGH);
+        digitalWrite(STEP_PIN, HIGH);
         delayMicroseconds(100);
-        digitalWrite(STEP_PIN_1, LOW);
-        digitalWrite(STEP_PIN_2, LOW);
+        digitalWrite(STEP_PIN, LOW);
         delayMicroseconds(100);
     }
     current += num_steps;
@@ -69,12 +59,9 @@ void execute()
 void setup()
 {
     Serial.setTimeout(10);
-    pinMode(STEP_PIN_1, OUTPUT);
-    pinMode(STEP_PIN_2, OUTPUT);
-    pinMode(DIR_PIN_1, OUTPUT);
-    pinMode(DIR_PIN_2, OUTPUT);
-    digitalWrite(STEP_PIN_1, LOW);
-    digitalWrite(STEP_PIN_2, LOW);
+    pinMode(STEP_PIN, OUTPUT);
+    pinMode(DIR_PIN, OUTPUT);
+    digitalWrite(STEP_PIN, LOW);
     Serial.begin(115200);
     Serial.println("SETUP CALL");
 }
