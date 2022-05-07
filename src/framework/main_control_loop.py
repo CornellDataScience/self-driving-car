@@ -40,7 +40,7 @@ class MainControlLoop(ControlTaskBase):
             self.point_tracker,
             self.mission_manager,
             self.process_frame,
-            self.display_frame
+            self.display_frame, 
         ]
         
         # Lists ready to re-order if required
