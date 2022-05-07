@@ -1,6 +1,7 @@
 s   
 rom .control_task_base import ControlTaskBase
 
+
 class PointTracker(ControlTaskBase):
     def setup(self):
         pass
@@ -10,4 +11,3 @@ class PointTracker(ControlTaskBase):
 
     def execute(self):
         print("Tracking points.")
-        pass

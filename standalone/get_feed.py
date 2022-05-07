@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 import cv2
-import process_frame 
+import process_frame
+
 # from IPython.display import display
 
 W, H = 1280, 720

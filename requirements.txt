@@ -1,2 +1,8 @@
 opencv-python
 pyyaml
+pylint
+pillow
+matplotlib
+glob2
+
+
