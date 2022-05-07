@@ -1,5 +1,4 @@
-s   
-rom .control_task_base import ControlTaskBase
+from .control_task_base import ControlTaskBase
 
 
 class PointTracker(ControlTaskBase):

@@ -1,9 +1,20 @@
 from typing import List
-from ..ControlTasks import (ControlTaskBase, ClockManager, MissionManager,
-                            Webcam, PointTracker, ProcessFrame, DisplayFrame,
-                            DepthCamera, StaticFrame, MotorController, LaneDetection)
+from ..ControlTasks import (
+    ControlTaskBase,
+    ClockManager,
+    MissionManager,
+    Webcam,
+    PointTracker,
+    ProcessFrame,
+    DisplayFrame,
+    DepthCamera,
+    StaticFrame,
+    MotorController,
+    LaneDetection,
+)
 from ..sfr import StateFieldRegistry
 import time
+import serial
 
 
 class MainControlLoop(ControlTaskBase):
@@ -32,6 +43,9 @@ class MainControlLoop(ControlTaskBase):
         self.process_frame = ProcessFrame("process_frame", self.config, self.sfr)
         self.display_frame = DisplayFrame("display_frame", self.config, self.sfr)
         self.lane_detection = LaneDetection("lane_detection", self.config, self.sfr)
+        self.motor_controller = MotorController(
+            "motor_controller", self.config, self.sfr
+        )
 
         # All ControlTasks must be added here to be setup and run.
         self.ct_list: List[ControlTaskBase] = [
@@ -40,9 +54,9 @@ class MainControlLoop(ControlTaskBase):
             self.point_tracker,
             self.mission_manager,
             self.process_frame,
-            self.display_frame, 
+            self.display_frame,
             self.motor_controller,
-            self.lane_detection
+            self.lane_detection,
         ]
 
         # Lists ready to re-order if required
