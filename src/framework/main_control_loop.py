@@ -18,7 +18,7 @@ import time
 class MainControlLoop(ControlTaskBase):
     def setup(self):
         self.sfr = StateFieldRegistry()
-        """All the setup required for the MainControlLoop. ttttttttttttttttttttttttttttttttttttttttttttt"""
+        """All the setup required for the MainControlLoop."""
         self.clock_manager = ClockManager("clock_manager", self.config, self.sfr)
 
         # set how to read images depending on run mode
@@ -50,7 +50,7 @@ class MainControlLoop(ControlTaskBase):
             self.mission_manager,
             self.process_frame,
             self.display_frame,
-            self.lane_detection
+            self.lane_detection,
         ]
 
         # Lists ready to re-order if required
