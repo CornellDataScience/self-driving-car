@@ -1,19 +1,14 @@
 from .control_task_base import ControlTaskBase
-import sys
-import time
+from control import spin
 import serial
-
-sys.path.append('self-driving-car/embedded')
-
-from comm.py import write, spin
 
 class MotorController(ControlTaskBase):
     def setup(self):
-        self.comm = serial.Serial(port='/dev/tty.usbmodem142101',
+      self.comm = serial.Serial(port='/dev/tty.usbmodem142101',
                      baudrate=115200, timeout=10)
     
     def default(self):
-      spin(0)
+      spin(0, self.comm)
 
     def execute(self):
-      spin(self.sfr.get('steering_angle'))
+      spin(self.sfr.get('steering_angle'), self.comm)

@@ -1,7 +1,7 @@
 from typing import List
 from ..ControlTasks import (ControlTaskBase, ClockManager, MissionManager,
                             Webcam, PointTracker, ProcessFrame, DisplayFrame,
-                            DepthCamera, StaticFrame)
+                            DepthCamera, StaticFrame, MotorController)
 from ..sfr import StateFieldRegistry
 import time
 
@@ -41,6 +41,7 @@ class MainControlLoop(ControlTaskBase):
             self.mission_manager,
             self.process_frame,
             self.display_frame, 
+            self.motor_controller
         ]
         
         # Lists ready to re-order if required
