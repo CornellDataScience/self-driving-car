@@ -26,9 +26,9 @@ def calc_angle(l, r):
     if road_info == "Straight":
         return 0
     elif road_info == "curving to Left":
-        steering_wheel_angle = -10 * steering_ratio * math.asin(wheel_base / curvature)
+        steering_wheel_angle = -1000 * steering_ratio * math.asin(wheel_base / curvature)
     elif road_info == "curving to Right":
-        steering_wheel_angle = 10 * steering_ratio * math.asin(wheel_base / curvature)
+        steering_wheel_angle = 1000 * steering_ratio * math.asin(wheel_base / curvature)
 
     return steering_wheel_angle
 

@@ -17,7 +17,7 @@ def spin(x):
 
 def execute(): 
     spin(360)
-    time.sleep(3)
+    time.sleep(1)
     spin(-360)
     #time.sleep(0.1)
 
