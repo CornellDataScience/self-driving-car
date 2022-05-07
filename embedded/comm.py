@@ -39,20 +39,17 @@ def full_rotate_left():
             if '-3240' in str(data): 
                 break
 
+
+def spin(x):
+    write(str(x))
+    time.sleep(0.0856)
+    write(str(x))
+    time.sleep(0.0856)
+
 def execute(): 
-    time.sleep(0.5)
-    '''
-    temp = 360
-    while True: 
-        write(str(temp))
-        if comm.in_waiting: 
-            data = comm.readline()
-            print(data)
-        time.sleep(1)
-    '''
-    full_rotate_right()
-    full_rotate_left()
+    spin(360)
+    time.sleep(3)
+    spin(-360)
+    #time.sleep(0.1)
 
 execute()
-
-#Problem: Trade off between delay and length of turn? Can go 360 degrees with no problem using a delay of 1 second, but going longer is questionable

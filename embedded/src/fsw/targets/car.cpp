@@ -7,9 +7,11 @@
 #define STEP_PIN_2 5
 
 const int drive_to_stepper = 9;
-const int max_step_size = 600;
+const int max_step_size = 100;
 
 int current = 0; // the current stepper motor angle
+
+int target = 0;
 
 // drive_to_stepper_angle(drive) is the discrete stepper motor value that corresponds to a drive angle on the steering wheel
 int drive_to_stepper_angle(int drive)
@@ -46,23 +48,21 @@ void execute()
     if (Serial.available() > 0)
     {
         delay(10);
-        int target = Serial.readString().toInt(); // the target driving wheel angle
-        int differential = drive_to_stepper_angle(target) - current;
-        int to_step = 0;
+        target = Serial.readString().toInt(); // the target driving wheel angle
+    }
 
-        if (differential >= 0)
-        {
-            to_step = min(differential, max_step_size);
-            turn_motor(to_step);
-        }
-        else
-        {
-            to_step = max(differential, -1 * max_step_size);
-            turn_motor(to_step);
-        }
-        Serial.println("Finished stepping");
+    int differential = drive_to_stepper_angle(target) - current;
+    int to_step = 0;
 
-        Serial.println("Currrent: " + String(current));
+    if (differential >= 0)
+    {
+        to_step = min(differential, max_step_size);
+        turn_motor(to_step);
+    }
+    else
+    {
+        to_step = max(differential, -1 * max_step_size);
+        turn_motor(to_step);
     }
 }
 
@@ -76,7 +76,6 @@ void setup()
     digitalWrite(STEP_PIN_1, LOW);
     digitalWrite(STEP_PIN_2, LOW);
     Serial.begin(115200);
-    Serial.println("SETUP CALL");
 }
 
 void loop()
