@@ -350,6 +350,12 @@ def line_search_tracking(b_img, left_line, right_line):
     leftx, lefty = nonzerox[left_inds], nonzeroy[left_inds]
     rightx, righty = nonzerox[right_inds], nonzeroy[right_inds]
 
+    # EDITED HERE WHILE TESTING
+    if not (lefty.any() and righty.any() and leftx.any() and rightx.any()):
+        return None
+
+        
+
     out_img[lefty, leftx] = [255, 0, 0]
     out_img[righty, rightx] = [0, 0, 255]
 
@@ -412,6 +418,7 @@ def line_search_tracking(b_img, left_line, right_line):
     left_line.endx, right_line.endx = left_line.allx[0], right_line.allx[0]
 
     measure_curvature(left_line, right_line)
+    
 
     return out_img
 
