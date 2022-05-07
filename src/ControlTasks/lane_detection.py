@@ -30,6 +30,8 @@ def calc_angle(l, r):
     elif road_info == "curving to Right":
         steering_wheel_angle = 10 * steering_ratio * math.asin(wheel_base / curvature)
 
+    steering_wheel_angle + (deviation / 5)
+
     return steering_wheel_angle
 
 
@@ -44,9 +46,10 @@ class LaneDetection(ControlTaskBase):
     # Take in frame and output direction to move and store in sfr?
     def execute(self):
         curr_frame = self.sfr.get("curr_frame")
-        curr_frame = cv2.imread(
-            "lane/s-curve-road-skyline-drive-tucked-blue-ridge-mountains-shenandoah-national-park-virgina-31148867.jpeg"
-        )
+        # curr_frame = cv2.imread(
+        #     "lane/s-curve-road-skyline-drive-tucked-blue-ridge-mountains-shenandoah-national-park-virgina-31148867.jpeg"
+        # )
         self.left_line, self.right_line = get_lines.pipeline(curr_frame)
         self.sfr.set("steering_angle", calc_angle(self.left_line, self.right_line))
+
         print("Angle to turn: " + str(self.sfr.get("steering_angle")))
