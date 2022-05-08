@@ -178,13 +178,21 @@ class Frame(object):
         self.position = pose.position()
         self.pose_covariance = pose_covariance
 
+        print("inverse: ", pose.inverse().matrix())
         self.transform_matrix = pose.inverse().matrix()[:3] # shape: (3, 4)
+        print("transform matrix: ", self.transform_matrix)
         self.projection_matrix =(self.cam.intrinsic.dot(self.transform_matrix))  # from world frame to image
+        print("projection matrix: ", self.projection_matrix)
 
     # batch version
     def can_view(self, points, ground=False, margin=20):    # Frustum Culling
         points = np.transpose(points)
+        #  print("view points transposed: ", points)
         (u, v), depth = self.project(self.transform(points))
+
+        #  print("Depth: ", depth)
+        #  print("u: ", u)
+        #  print("v: ", v)
 
         if ground:
             return np.logical_and.reduce([
@@ -220,11 +228,14 @@ class Frame(object):
         Args:
             points: a point or an array of points, of shape (3,) or (3, N).
         '''
+        print("transform points: ", points)
         R = self.transform_matrix[:3, :3]
         if points.ndim == 1:
             t = self.transform_matrix[:3, 3]
         else:
             t = self.transform_matrix[:3, 3:]
+        #  print("R: ", R)
+        #  print("R . points: ", R.dot(points))
         return R.dot(points) + t
 
     def project(self, points): 
@@ -235,8 +246,10 @@ class Frame(object):
         Returns:
             Projected pixel coordinates, and respective depth.
         '''
-        print(len(points))
+        #  print("points in project: ", points)
+        print("intrinsic: ", self.cam.intrinsic)
         projection = self.cam.intrinsic.dot(points / points[-1:])
+        #  print("projection: ", projection)
         return projection[:2], points[-1]
 
     def find_matches(self, points, descriptors):
@@ -365,10 +378,10 @@ class StereoFrame(Frame):
         return mappoints, measurements
 
     def triangulate_points(self, kps_left, desps_left, kps_right, desps_right):
-        print("kps_left: ", kps_left)
-        print("desps_left: ", desps_left)
-        print("kps_right: ", kps_right)
-        print("desps_right: ", desps_right)
+        #  print("kps_left: ", kps_left)
+        #  print("desps_left: ", desps_left)
+        #  print("kps_right: ", kps_right)
+        #  print("desps_right: ", desps_right)
         matches = self.feature.row_match(
             kps_left, desps_left, kps_right, desps_right)
         assert len(matches) > 0
@@ -376,26 +389,41 @@ class StereoFrame(Frame):
         px_left = np.array([kps_left[m.queryIdx].pt for m in matches])
         px_right = np.array([kps_right[m.trainIdx].pt for m in matches])
 
+        self.right.projection_matrix = np.array([[718., 0., 0., 1.],[0., 817., 0., 1.],[607., 185., 1., 1.]])
+            
+        print("px_left: ", px_left[:, :2].transpose())
+        print("px_right: ", px_right[:, :2].transpose())
+        print("left proj: ", self.left.projection_matrix)
+        print("right proj: ", self.right.projection_matrix)
+
         points = cv2.triangulatePoints(
             self.left.projection_matrix, 
             self.right.projection_matrix, 
-            px_left.transpose(), 
-            px_right.transpose() 
+            px_left[:, :2].transpose(), 
+            px_right[:, :2].transpose() 
             ).transpose()  # shape: (N, 4)
 
+        print("points: ", points)
+
         points = points[:, :3] / points[:, 3:] # Not sure what this is doing
-        print("# points: ", len(points))
+        #  print("normalized points: ", points)
+
 
         can_view = np.logical_and(
-            self.left.can_view(points), 
-            self.right.can_view(points))
+            self.left.can_view(points, ground=True), 
+            self.right.can_view(points, ground=True))
 
+        #  print("left can_view: ", self.right.can_view(points, ground=True))
+        #  print("right can_view: ", self.left.can_view(points, ground=True))
+        print("joint can_view: ", can_view)
 
         mappoints = []
         matchs = []
         for i, point in enumerate(points):
-            if not can_view[i]:
-                continue
+            #  if not can_view[i]:
+                #  print("continuing...")
+                #  continue
+            #  print("Making Mappoint")
             normal = point - self.position
             normal = normal / np.linalg.norm(normal)
 

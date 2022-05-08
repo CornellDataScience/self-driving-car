@@ -11,14 +11,14 @@ class SLAM(object):
     def __init__(self, params):
         self.params = params
 
-        #  self.tracker = Tracking(params)
-        #  self.motion_model = MotionModel()
-
-        #  self.graph = CovisibilityGraph()
-        #  self.mapping = MappingThread(self.graph, params)
-
-        #  self.loop_closing = LoopClosing(self, params)
-        #  self.loop_correction = None
+        self.tracker = Tracking(params)
+        self.motion_model = MotionModel()
+#
+        self.graph = CovisibilityGraph()
+        self.mapping = MappingThread(self.graph, params)
+#
+        self.loop_closing = LoopClosing(self, params)
+        self.loop_correction = None
         
         self.status = None # defaultdict(bool)
 
