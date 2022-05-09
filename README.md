@@ -17,13 +17,28 @@ TODO
 Here's some extra details about each of the individual parts that we developed and how they work.
 
 ## Lane Detection
+TODO: Citation to the library we used for lane detection
 
 ## SLAM
 
-## Ebedded Systems
-
 ## Main Control Loop Framework
 The main control loop framework was based on a Read-Estimate-Control-Command-Actuate architecture inspired by work from the Pathfinder for Autonomous Navigation team.
+
+
+## Embedded Systems
+
+![Alt text](images/es-arch-hardware.jpg?raw=true "Hardware Stack")
+
+Blah blah
+
+<br>
+<hr></hr>
+
+![Alt text](images/embedded-systems-arch.jpg?raw=true "Embedded Systems Architecture")
+
+# Hardware
+
+![Alt text](images/hardware-stand.jpg?raw=true "Hardware Stand")
 
 ## Running it yourself
 Please scroll to the bottom for continuation details.
