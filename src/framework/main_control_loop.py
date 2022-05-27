@@ -11,6 +11,7 @@ from ..ControlTasks import (
     StaticFrame,
     #MotorController,
     LaneDetection,
+    TimeManager,
 )
 from ..sfr import StateFieldRegistry
 import time
@@ -20,6 +21,7 @@ import serial
 class MainControlLoop(ControlTaskBase):
     def setup(self):
         self.sfr = StateFieldRegistry()
+        
         """All the setup required for the MainControlLoop."""
         self.clock_manager = ClockManager("clock_manager", self.config, self.sfr)
 
@@ -46,6 +48,7 @@ class MainControlLoop(ControlTaskBase):
         #self.motor_controller = MotorController(
             #"motor_controller", self.config, self.sfr
         #)
+        self.time_manager = TimeManager("time_maanger", self.config, self.sfr)
 
         # All ControlTasks must be added here to be setup and run.
         self.ct_list: List[ControlTaskBase] = [
@@ -57,6 +60,7 @@ class MainControlLoop(ControlTaskBase):
             self.display_frame,
             #self.motor_controller,
             self.lane_detection,
+            self.time_manager,
         ]
 
         # Lists ready to re-order if required

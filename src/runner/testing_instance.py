@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 
 
+
 class TInstance(ABC):
     """ "
     An abstract class for test instances.
