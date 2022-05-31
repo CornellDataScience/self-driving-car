@@ -1,0 +1,18 @@
+#ifndef mission_mode_t_enum_
+#define mission_mode_t_enum_
+
+// pan.mode
+enum class mission_mode_t {
+    warmup,
+    pause,
+    initialization,
+    standby,
+    detumble,
+    bellyflop,
+    landed,
+    flight,
+    descent,
+
+};
+
+#endif

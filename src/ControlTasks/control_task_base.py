@@ -52,7 +52,7 @@ class ControlTaskBase(ABC):
         self.pre_execute()
         self.execute()
         self.post_execute()
-        self.print_debug_info()
+        # self.print_debug_info()
 
     @abstractmethod
     def execute(self) -> None:

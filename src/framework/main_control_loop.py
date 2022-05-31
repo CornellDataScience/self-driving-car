@@ -9,10 +9,13 @@ from ..ControlTasks import (
     DisplayFrame,
     DepthCamera,
     StaticFrame,
+    #MotorController,
+    LaneDetection,
     TimeManager,
 )
 from ..sfr import StateFieldRegistry
 import time
+import serial
 
 
 class MainControlLoop(ControlTaskBase):
@@ -41,6 +44,10 @@ class MainControlLoop(ControlTaskBase):
         self.mission_manager = MissionManager("mission_manager", self.config, self.sfr)
         self.process_frame = ProcessFrame("process_frame", self.config, self.sfr)
         self.display_frame = DisplayFrame("display_frame", self.config, self.sfr)
+        self.lane_detection = LaneDetection("lane_detection", self.config, self.sfr)
+        #self.motor_controller = MotorController(
+            #"motor_controller", self.config, self.sfr
+        #)
         self.time_manager = TimeManager("time_maanger", self.config, self.sfr)
 
         # All ControlTasks must be added here to be setup and run.
@@ -51,6 +58,8 @@ class MainControlLoop(ControlTaskBase):
             self.mission_manager,
             self.process_frame,
             self.display_frame,
+            #self.motor_controller,
+            self.lane_detection,
             self.time_manager,
         ]
 
