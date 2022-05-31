@@ -17,7 +17,7 @@ TODO
 Here's some extra details about each of the individual parts that we developed and how they work.
 
 ## Lane Detection
-TODO: Citation to the library we used for lane detection
+https://github.com/maunesh/advanced-lane-detection-for-self-driving-cars
 
 ## SLAM
 
