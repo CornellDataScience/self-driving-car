@@ -6,12 +6,8 @@ CDS Self-Driving Car aims to demonstrate tight integration of a camera based vis
 ## Team
 This ambitious project was undertaken by Evan Williams, Iris Li, Edward Gu, Tobi Alade, Elias Little, Eric Zhang, Adarsh Sriram, and Shihao Cao
 
-# FA 21 Progress:
-TODO
-
-# SP 22 Progress:
-
 # Demo Results:
+FINAL PRESENTATION: https://docs.google.com/presentation/d/1MIJ480jFvm6mGaNohGM7KqMZyA3pAJ67wQSmTtvUBTY/edit?usp=sharing
 
 # Moving Pieces:
 Here's some extra details about each of the individual parts that we developed and how they work.
